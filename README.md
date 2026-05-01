@@ -38,8 +38,5 @@ The project treats the sequence of topics as a Markov Process, where the next to
 *   **Dominant Theme**: "Education and Citizen Issues" serves as the central hub and a "practically absorbing state" of the program.
 *   **Predictability**: The very low entropy rate confirms that the speeches follow a stable, consistent narrative with limited thematic drift.
 *   **Structure**: Regardless of the starting point, the conversation typically returns to core civic themes within 1–2 speech segments.
-
-Author
-Adinath Nare
-**Guide**: Dr. Mohan Kale  
-**Author**: Adinath Nare[cite: 1]
+  
+**Author**: Adinath Nare
