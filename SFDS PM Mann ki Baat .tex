@@ -1,0 +1,1664 @@
+\documentclass[11pt]{article}
+
+    \usepackage[breakable]{tcolorbox}
+    \usepackage{parskip} % Stop auto-indenting (to mimic markdown behaviour)
+    
+
+    % Basic figure setup, for now with no caption control since it's done
+    % automatically by Pandoc (which extracts ![](path) syntax from Markdown).
+    \usepackage{graphicx}
+    % Keep aspect ratio if custom image width or height is specified
+    \setkeys{Gin}{keepaspectratio}
+    % Maintain compatibility with old templates. Remove in nbconvert 6.0
+    \let\Oldincludegraphics\includegraphics
+    % Ensure that by default, figures have no caption (until we provide a
+    % proper Figure object with a Caption API and a way to capture that
+    % in the conversion process - todo).
+    \usepackage{caption}
+    \DeclareCaptionFormat{nocaption}{}
+    \captionsetup{format=nocaption,aboveskip=0pt,belowskip=0pt}
+
+    \usepackage{float}
+    \floatplacement{figure}{H} % forces figures to be placed at the correct location
+    \usepackage{xcolor} % Allow colors to be defined
+    \usepackage{enumerate} % Needed for markdown enumerations to work
+    \usepackage{geometry} % Used to adjust the document margins
+    \usepackage{amsmath} % Equations
+    \usepackage{amssymb} % Equations
+    \usepackage{textcomp} % defines textquotesingle
+    % Hack from http://tex.stackexchange.com/a/47451/13684:
+    \AtBeginDocument{%
+        \def\PYZsq{\textquotesingle}% Upright quotes in Pygmentized code
+    }
+    \usepackage{upquote} % Upright quotes for verbatim code
+    \usepackage{eurosym} % defines \euro
+
+    \usepackage{iftex}
+    \ifPDFTeX
+        \usepackage[T1]{fontenc}
+        \IfFileExists{alphabeta.sty}{
+              \usepackage{alphabeta}
+          }{
+              \usepackage[mathletters]{ucs}
+              \usepackage[utf8x]{inputenc}
+          }
+    \else
+        \usepackage{fontspec}
+        \usepackage{unicode-math}
+    \fi
+
+    \usepackage{fancyvrb} % verbatim replacement that allows latex
+    \usepackage{grffile} % extends the file name processing of package graphics
+                         % to support a larger range
+    \makeatletter % fix for old versions of grffile with XeLaTeX
+    \@ifpackagelater{grffile}{2019/11/01}
+    {
+      % Do nothing on new versions
+    }
+    {
+      \def\Gread@@xetex#1{%
+        \IfFileExists{"\Gin@base".bb}%
+        {\Gread@eps{\Gin@base.bb}}%
+        {\Gread@@xetex@aux#1}%
+      }
+    }
+    \makeatother
+    \usepackage[Export]{adjustbox} % Used to constrain images to a maximum size
+    \adjustboxset{max size={0.9\linewidth}{0.9\paperheight}}
+
+    % The hyperref package gives us a pdf with properly built
+    % internal navigation ('pdf bookmarks' for the table of contents,
+    % internal cross-reference links, web links for URLs, etc.)
+    \usepackage{hyperref}
+    % The default LaTeX title has an obnoxious amount of whitespace. By default,
+    % titling removes some of it. It also provides customization options.
+    \usepackage{titling}
+    \usepackage{longtable} % longtable support required by pandoc >1.10
+    \usepackage{booktabs}  % table support for pandoc > 1.12.2
+    \usepackage{array}     % table support for pandoc >= 2.11.3
+    \usepackage{calc}      % table minipage width calculation for pandoc >= 2.11.1
+    \usepackage[inline]{enumitem} % IRkernel/repr support (it uses the enumerate* environment)
+    \usepackage[normalem]{ulem} % ulem is needed to support strikethroughs (\sout)
+                                % normalem makes italics be italics, not underlines
+    \usepackage{soul}      % strikethrough (\st) support for pandoc >= 3.0.0
+    \usepackage{mathrsfs}
+    
+
+    
+    % Colors for the hyperref package
+    \definecolor{urlcolor}{rgb}{0,.145,.698}
+    \definecolor{linkcolor}{rgb}{.71,0.21,0.01}
+    \definecolor{citecolor}{rgb}{.12,.54,.11}
+
+    % ANSI colors
+    \definecolor{ansi-black}{HTML}{3E424D}
+    \definecolor{ansi-black-intense}{HTML}{282C36}
+    \definecolor{ansi-red}{HTML}{E75C58}
+    \definecolor{ansi-red-intense}{HTML}{B22B31}
+    \definecolor{ansi-green}{HTML}{00A250}
+    \definecolor{ansi-green-intense}{HTML}{007427}
+    \definecolor{ansi-yellow}{HTML}{DDB62B}
+    \definecolor{ansi-yellow-intense}{HTML}{B27D12}
+    \definecolor{ansi-blue}{HTML}{208FFB}
+    \definecolor{ansi-blue-intense}{HTML}{0065CA}
+    \definecolor{ansi-magenta}{HTML}{D160C4}
+    \definecolor{ansi-magenta-intense}{HTML}{A03196}
+    \definecolor{ansi-cyan}{HTML}{60C6C8}
+    \definecolor{ansi-cyan-intense}{HTML}{258F8F}
+    \definecolor{ansi-white}{HTML}{C5C1B4}
+    \definecolor{ansi-white-intense}{HTML}{A1A6B2}
+    \definecolor{ansi-default-inverse-fg}{HTML}{FFFFFF}
+    \definecolor{ansi-default-inverse-bg}{HTML}{000000}
+
+    % common color for the border for error outputs.
+    \definecolor{outerrorbackground}{HTML}{FFDFDF}
+
+    % commands and environments needed by pandoc snippets
+    % extracted from the output of `pandoc -s`
+    \providecommand{\tightlist}{%
+      \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+    \DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+    % Add ',fontsize=\small' for more characters per line
+    \newenvironment{Shaded}{}{}
+    \newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.00,0.44,0.13}{\textbf{{#1}}}}
+    \newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.56,0.13,0.00}{{#1}}}
+    \newcommand{\DecValTok}[1]{\textcolor[rgb]{0.25,0.63,0.44}{{#1}}}
+    \newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.25,0.63,0.44}{{#1}}}
+    \newcommand{\FloatTok}[1]{\textcolor[rgb]{0.25,0.63,0.44}{{#1}}}
+    \newcommand{\CharTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\StringTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\CommentTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textit{{#1}}}}
+    \newcommand{\OtherTok}[1]{\textcolor[rgb]{0.00,0.44,0.13}{{#1}}}
+    \newcommand{\AlertTok}[1]{\textcolor[rgb]{1.00,0.00,0.00}{\textbf{{#1}}}}
+    \newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.02,0.16,0.49}{{#1}}}
+    \newcommand{\RegionMarkerTok}[1]{{#1}}
+    \newcommand{\ErrorTok}[1]{\textcolor[rgb]{1.00,0.00,0.00}{\textbf{{#1}}}}
+    \newcommand{\NormalTok}[1]{{#1}}
+
+    % Additional commands for more recent versions of Pandoc
+    \newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.53,0.00,0.00}{{#1}}}
+    \newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.73,0.40,0.53}{{#1}}}
+    \newcommand{\ImportTok}[1]{{#1}}
+    \newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.73,0.13,0.13}{\textit{{#1}}}}
+    \newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    \newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    \newcommand{\VariableTok}[1]{\textcolor[rgb]{0.10,0.09,0.49}{{#1}}}
+    \newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.00,0.44,0.13}{\textbf{{#1}}}}
+    \newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.40,0.40,0.40}{{#1}}}
+    \newcommand{\BuiltInTok}[1]{{#1}}
+    \newcommand{\ExtensionTok}[1]{{#1}}
+    \newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.74,0.48,0.00}{{#1}}}
+    \newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.49,0.56,0.16}{{#1}}}
+    \newcommand{\InformationTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    \newcommand{\WarningTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+
+
+    % Define a nice break command that doesn't care if a line doesn't already
+    % exist.
+    \def\br{\hspace*{\fill} \\* }
+    % Math Jax compatibility definitions
+    \def\gt{>}
+    \def\lt{<}
+    \let\Oldtex\TeX
+    \let\Oldlatex\LaTeX
+    \renewcommand{\TeX}{\textrm{\Oldtex}}
+    \renewcommand{\LaTeX}{\textrm{\Oldlatex}}
+    % Document parameters
+    % Document title
+    \title{SFDS PM Mann ki Baat }
+    
+    
+    
+    
+    
+    
+    
+% Pygments definitions
+\makeatletter
+\def\PY@reset{\let\PY@it=\relax \let\PY@bf=\relax%
+    \let\PY@ul=\relax \let\PY@tc=\relax%
+    \let\PY@bc=\relax \let\PY@ff=\relax}
+\def\PY@tok#1{\csname PY@tok@#1\endcsname}
+\def\PY@toks#1+{\ifx\relax#1\empty\else%
+    \PY@tok{#1}\expandafter\PY@toks\fi}
+\def\PY@do#1{\PY@bc{\PY@tc{\PY@ul{%
+    \PY@it{\PY@bf{\PY@ff{#1}}}}}}}
+\def\PY#1#2{\PY@reset\PY@toks#1+\relax+\PY@do{#2}}
+
+\@namedef{PY@tok@w}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.73,0.73}{##1}}}
+\@namedef{PY@tok@c}{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.24,0.48,0.48}{##1}}}
+\@namedef{PY@tok@cp}{\def\PY@tc##1{\textcolor[rgb]{0.61,0.40,0.00}{##1}}}
+\@namedef{PY@tok@k}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@kp}{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@kt}{\def\PY@tc##1{\textcolor[rgb]{0.69,0.00,0.25}{##1}}}
+\@namedef{PY@tok@o}{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\@namedef{PY@tok@ow}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.67,0.13,1.00}{##1}}}
+\@namedef{PY@tok@nb}{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@nf}{\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\@namedef{PY@tok@nc}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\@namedef{PY@tok@nn}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\@namedef{PY@tok@ne}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.80,0.25,0.22}{##1}}}
+\@namedef{PY@tok@nv}{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\@namedef{PY@tok@no}{\def\PY@tc##1{\textcolor[rgb]{0.53,0.00,0.00}{##1}}}
+\@namedef{PY@tok@nl}{\def\PY@tc##1{\textcolor[rgb]{0.46,0.46,0.00}{##1}}}
+\@namedef{PY@tok@ni}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.44,0.44,0.44}{##1}}}
+\@namedef{PY@tok@na}{\def\PY@tc##1{\textcolor[rgb]{0.41,0.47,0.13}{##1}}}
+\@namedef{PY@tok@nt}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@nd}{\def\PY@tc##1{\textcolor[rgb]{0.67,0.13,1.00}{##1}}}
+\@namedef{PY@tok@s}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@sd}{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@si}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.64,0.35,0.47}{##1}}}
+\@namedef{PY@tok@se}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.67,0.36,0.12}{##1}}}
+\@namedef{PY@tok@sr}{\def\PY@tc##1{\textcolor[rgb]{0.64,0.35,0.47}{##1}}}
+\@namedef{PY@tok@ss}{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\@namedef{PY@tok@sx}{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@m}{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\@namedef{PY@tok@gh}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,0.50}{##1}}}
+\@namedef{PY@tok@gu}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.50,0.00,0.50}{##1}}}
+\@namedef{PY@tok@gd}{\def\PY@tc##1{\textcolor[rgb]{0.63,0.00,0.00}{##1}}}
+\@namedef{PY@tok@gi}{\def\PY@tc##1{\textcolor[rgb]{0.00,0.52,0.00}{##1}}}
+\@namedef{PY@tok@gr}{\def\PY@tc##1{\textcolor[rgb]{0.89,0.00,0.00}{##1}}}
+\@namedef{PY@tok@ge}{\let\PY@it=\textit}
+\@namedef{PY@tok@gs}{\let\PY@bf=\textbf}
+\@namedef{PY@tok@gp}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,0.50}{##1}}}
+\@namedef{PY@tok@go}{\def\PY@tc##1{\textcolor[rgb]{0.44,0.44,0.44}{##1}}}
+\@namedef{PY@tok@gt}{\def\PY@tc##1{\textcolor[rgb]{0.00,0.27,0.87}{##1}}}
+\@namedef{PY@tok@err}{\def\PY@bc##1{{\setlength{\fboxsep}{\string -\fboxrule}\fcolorbox[rgb]{1.00,0.00,0.00}{1,1,1}{\strut ##1}}}}
+\@namedef{PY@tok@kc}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@kd}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@kn}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@kr}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@bp}{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@fm}{\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\@namedef{PY@tok@vc}{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\@namedef{PY@tok@vg}{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\@namedef{PY@tok@vi}{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\@namedef{PY@tok@vm}{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\@namedef{PY@tok@sa}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@sb}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@sc}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@dl}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@s2}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@sh}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@s1}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@mb}{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\@namedef{PY@tok@mf}{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\@namedef{PY@tok@mh}{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\@namedef{PY@tok@mi}{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\@namedef{PY@tok@il}{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\@namedef{PY@tok@mo}{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\@namedef{PY@tok@ch}{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.24,0.48,0.48}{##1}}}
+\@namedef{PY@tok@cm}{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.24,0.48,0.48}{##1}}}
+\@namedef{PY@tok@cpf}{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.24,0.48,0.48}{##1}}}
+\@namedef{PY@tok@c1}{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.24,0.48,0.48}{##1}}}
+\@namedef{PY@tok@cs}{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.24,0.48,0.48}{##1}}}
+
+\def\PYZbs{\char`\\}
+\def\PYZus{\char`\_}
+\def\PYZob{\char`\{}
+\def\PYZcb{\char`\}}
+\def\PYZca{\char`\^}
+\def\PYZam{\char`\&}
+\def\PYZlt{\char`\<}
+\def\PYZgt{\char`\>}
+\def\PYZsh{\char`\#}
+\def\PYZpc{\char`\%}
+\def\PYZdl{\char`\$}
+\def\PYZhy{\char`\-}
+\def\PYZsq{\char`\'}
+\def\PYZdq{\char`\"}
+\def\PYZti{\char`\~}
+% for compatibility with earlier versions
+\def\PYZat{@}
+\def\PYZlb{[}
+\def\PYZrb{]}
+\makeatother
+
+
+    % For linebreaks inside Verbatim environment from package fancyvrb.
+    \makeatletter
+        \newbox\Wrappedcontinuationbox
+        \newbox\Wrappedvisiblespacebox
+        \newcommand*\Wrappedvisiblespace {\textcolor{red}{\textvisiblespace}}
+        \newcommand*\Wrappedcontinuationsymbol {\textcolor{red}{\llap{\tiny$\m@th\hookrightarrow$}}}
+        \newcommand*\Wrappedcontinuationindent {3ex }
+        \newcommand*\Wrappedafterbreak {\kern\Wrappedcontinuationindent\copy\Wrappedcontinuationbox}
+        % Take advantage of the already applied Pygments mark-up to insert
+        % potential linebreaks for TeX processing.
+        %        {, <, #, %, $, ' and ": go to next line.
+        %        _, }, ^, &, >, - and ~: stay at end of broken line.
+        % Use of \textquotesingle for straight quote.
+        \newcommand*\Wrappedbreaksatspecials {%
+            \def\PYGZus{\discretionary{\char`\_}{\Wrappedafterbreak}{\char`\_}}%
+            \def\PYGZob{\discretionary{}{\Wrappedafterbreak\char`\{}{\char`\{}}%
+            \def\PYGZcb{\discretionary{\char`\}}{\Wrappedafterbreak}{\char`\}}}%
+            \def\PYGZca{\discretionary{\char`\^}{\Wrappedafterbreak}{\char`\^}}%
+            \def\PYGZam{\discretionary{\char`\&}{\Wrappedafterbreak}{\char`\&}}%
+            \def\PYGZlt{\discretionary{}{\Wrappedafterbreak\char`\<}{\char`\<}}%
+            \def\PYGZgt{\discretionary{\char`\>}{\Wrappedafterbreak}{\char`\>}}%
+            \def\PYGZsh{\discretionary{}{\Wrappedafterbreak\char`\#}{\char`\#}}%
+            \def\PYGZpc{\discretionary{}{\Wrappedafterbreak\char`\%}{\char`\%}}%
+            \def\PYGZdl{\discretionary{}{\Wrappedafterbreak\char`\$}{\char`\$}}%
+            \def\PYGZhy{\discretionary{\char`\-}{\Wrappedafterbreak}{\char`\-}}%
+            \def\PYGZsq{\discretionary{}{\Wrappedafterbreak\textquotesingle}{\textquotesingle}}%
+            \def\PYGZdq{\discretionary{}{\Wrappedafterbreak\char`\"}{\char`\"}}%
+            \def\PYGZti{\discretionary{\char`\~}{\Wrappedafterbreak}{\char`\~}}%
+        }
+        % Some characters . , ; ? ! / are not pygmentized.
+        % This macro makes them "active" and they will insert potential linebreaks
+        \newcommand*\Wrappedbreaksatpunct {%
+            \lccode`\~`\.\lowercase{\def~}{\discretionary{\hbox{\char`\.}}{\Wrappedafterbreak}{\hbox{\char`\.}}}%
+            \lccode`\~`\,\lowercase{\def~}{\discretionary{\hbox{\char`\,}}{\Wrappedafterbreak}{\hbox{\char`\,}}}%
+            \lccode`\~`\;\lowercase{\def~}{\discretionary{\hbox{\char`\;}}{\Wrappedafterbreak}{\hbox{\char`\;}}}%
+            \lccode`\~`\:\lowercase{\def~}{\discretionary{\hbox{\char`\:}}{\Wrappedafterbreak}{\hbox{\char`\:}}}%
+            \lccode`\~`\?\lowercase{\def~}{\discretionary{\hbox{\char`\?}}{\Wrappedafterbreak}{\hbox{\char`\?}}}%
+            \lccode`\~`\!\lowercase{\def~}{\discretionary{\hbox{\char`\!}}{\Wrappedafterbreak}{\hbox{\char`\!}}}%
+            \lccode`\~`\/\lowercase{\def~}{\discretionary{\hbox{\char`\/}}{\Wrappedafterbreak}{\hbox{\char`\/}}}%
+            \catcode`\.\active
+            \catcode`\,\active
+            \catcode`\;\active
+            \catcode`\:\active
+            \catcode`\?\active
+            \catcode`\!\active
+            \catcode`\/\active
+            \lccode`\~`\~
+        }
+    \makeatother
+
+    \let\OriginalVerbatim=\Verbatim
+    \makeatletter
+    \renewcommand{\Verbatim}[1][1]{%
+        %\parskip\z@skip
+        \sbox\Wrappedcontinuationbox {\Wrappedcontinuationsymbol}%
+        \sbox\Wrappedvisiblespacebox {\FV@SetupFont\Wrappedvisiblespace}%
+        \def\FancyVerbFormatLine ##1{\hsize\linewidth
+            \vtop{\raggedright\hyphenpenalty\z@\exhyphenpenalty\z@
+                \doublehyphendemerits\z@\finalhyphendemerits\z@
+                \strut ##1\strut}%
+        }%
+        % If the linebreak is at a space, the latter will be displayed as visible
+        % space at end of first line, and a continuation symbol starts next line.
+        % Stretch/shrink are however usually zero for typewriter font.
+        \def\FV@Space {%
+            \nobreak\hskip\z@ plus\fontdimen3\font minus\fontdimen4\font
+            \discretionary{\copy\Wrappedvisiblespacebox}{\Wrappedafterbreak}
+            {\kern\fontdimen2\font}%
+        }%
+
+        % Allow breaks at special characters using \PYG... macros.
+        \Wrappedbreaksatspecials
+        % Breaks at punctuation characters . , ; ? ! and / need catcode=\active
+        \OriginalVerbatim[#1,codes*=\Wrappedbreaksatpunct]%
+    }
+    \makeatother
+
+    % Exact colors from NB
+    \definecolor{incolor}{HTML}{303F9F}
+    \definecolor{outcolor}{HTML}{D84315}
+    \definecolor{cellborder}{HTML}{CFCFCF}
+    \definecolor{cellbackground}{HTML}{F7F7F7}
+
+    % prompt
+    \makeatletter
+    \newcommand{\boxspacing}{\kern\kvtcb@left@rule\kern\kvtcb@boxsep}
+    \makeatother
+    \newcommand{\prompt}[4]{
+        {\ttfamily\llap{{\color{#2}[#3]:\hspace{3pt}#4}}\vspace{-\baselineskip}}
+    }
+    
+
+    
+    % Prevent overflowing lines due to hard-to-break entities
+    \sloppy
+    % Setup hyperref package
+    \hypersetup{
+      breaklinks=true,  % so long urls are correctly broken across lines
+      colorlinks=true,
+      urlcolor=urlcolor,
+      linkcolor=linkcolor,
+      citecolor=citecolor,
+      }
+    % Slightly bigger margins than the latex defaults
+    
+    \geometry{verbose,tmargin=1in,bmargin=1in,lmargin=1in,rmargin=1in}
+    
+    
+
+\begin{document}
+    
+    \maketitle
+    
+    
+
+    
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{4}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n+nb}{print}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{final code}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)} 
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+final code
+    \end{Verbatim}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{2}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{c+c1}{\PYZsh{} Install core libraries}
+\PY{o}{!}pip\PY{+w}{ }install\PY{+w}{ }pandas\PY{+w}{ }numpy\PY{+w}{ }matplotlib\PY{+w}{ }seaborn\PY{+w}{ }scikit\PYZhy{}learn\PY{+w}{ }gensim\PY{+w}{ }nltk
+
+\PY{c+c1}{\PYZsh{} Optional: upgrade pip and these packages to the latest versions}
+\PY{o}{!}pip\PY{+w}{ }install\PY{+w}{ }\PYZhy{}\PYZhy{}upgrade\PY{+w}{ }pip\PY{+w}{ }pandas\PY{+w}{ }numpy\PY{+w}{ }matplotlib\PY{+w}{ }seaborn\PY{+w}{ }scikit\PYZhy{}learn\PY{+w}{ }gensim\PY{+w}{ }nltk
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+Requirement already satisfied: pandas in c:\textbackslash{}users\textbackslash{}adinath
+nare\textbackslash{}.conda\textbackslash{}envs\textbackslash{}ts\_image\_env\textbackslash{}lib\textbackslash{}site-packages (2.3.3)
+Requirement already satisfied: numpy in c:\textbackslash{}users\textbackslash{}adinath
+nare\textbackslash{}.conda\textbackslash{}envs\textbackslash{}ts\_image\_env\textbackslash{}lib\textbackslash{}site-packages (1.26.4)
+Requirement already satisfied: matplotlib in c:\textbackslash{}users\textbackslash{}adinath
+nare\textbackslash{}.conda\textbackslash{}envs\textbackslash{}ts\_image\_env\textbackslash{}lib\textbackslash{}site-packages (3.9.4)
+Requirement already satisfied: seaborn in c:\textbackslash{}users\textbackslash{}adinath
+nare\textbackslash{}.conda\textbackslash{}envs\textbackslash{}ts\_image\_env\textbackslash{}lib\textbackslash{}site-packages (0.13.2)
+Requirement already satisfied: scikit-learn in c:\textbackslash{}users\textbackslash{}adinath
+nare\textbackslash{}.conda\textbackslash{}envs\textbackslash{}ts\_image\_env\textbackslash{}lib\textbackslash{}site-packages (1.6.1)
+Collecting gensim
+  Downloading gensim-4.4.0-cp39-cp39-win\_amd64.whl.metadata (8.6 kB)
+Collecting nltk
+  Using cached nltk-3.9.2-py3-none-any.whl.metadata (3.2 kB)
+Requirement already satisfied: python-dateutil>=2.8.2 in c:\textbackslash{}users\textbackslash{}adinath
+nare\textbackslash{}.conda\textbackslash{}envs\textbackslash{}ts\_image\_env\textbackslash{}lib\textbackslash{}site-packages (from pandas) (2.9.0.post0)
+Requirement already satisfied: pytz>=2020.1 in c:\textbackslash{}users\textbackslash{}adinath
+nare\textbackslash{}.conda\textbackslash{}envs\textbackslash{}ts\_image\_env\textbackslash{}lib\textbackslash{}site-packages (from pandas) (2025.2)
+Requirement already satisfied: tzdata>=2022.7 in c:\textbackslash{}users\textbackslash{}adinath
+nare\textbackslash{}.conda\textbackslash{}envs\textbackslash{}ts\_image\_env\textbackslash{}lib\textbackslash{}site-packages (from pandas) (2025.2)
+Requirement already satisfied: contourpy>=1.0.1 in c:\textbackslash{}users\textbackslash{}adinath
+nare\textbackslash{}.conda\textbackslash{}envs\textbackslash{}ts\_image\_env\textbackslash{}lib\textbackslash{}site-packages (from matplotlib) (1.3.0)
+Requirement already satisfied: cycler>=0.10 in c:\textbackslash{}users\textbackslash{}adinath
+nare\textbackslash{}.conda\textbackslash{}envs\textbackslash{}ts\_image\_env\textbackslash{}lib\textbackslash{}site-packages (from matplotlib) (0.12.1)
+Requirement already satisfied: fonttools>=4.22.0 in c:\textbackslash{}users\textbackslash{}adinath
+nare\textbackslash{}.conda\textbackslash{}envs\textbackslash{}ts\_image\_env\textbackslash{}lib\textbackslash{}site-packages (from matplotlib) (4.60.1)
+Requirement already satisfied: kiwisolver>=1.3.1 in c:\textbackslash{}users\textbackslash{}adinath
+nare\textbackslash{}.conda\textbackslash{}envs\textbackslash{}ts\_image\_env\textbackslash{}lib\textbackslash{}site-packages (from matplotlib) (1.4.7)
+Requirement already satisfied: packaging>=20.0 in c:\textbackslash{}users\textbackslash{}adinath
+nare\textbackslash{}.conda\textbackslash{}envs\textbackslash{}ts\_image\_env\textbackslash{}lib\textbackslash{}site-packages (from matplotlib) (25.0)
+Requirement already satisfied: pillow>=8 in c:\textbackslash{}users\textbackslash{}adinath
+nare\textbackslash{}.conda\textbackslash{}envs\textbackslash{}ts\_image\_env\textbackslash{}lib\textbackslash{}site-packages (from matplotlib) (11.3.0)
+Requirement already satisfied: pyparsing>=2.3.1 in c:\textbackslash{}users\textbackslash{}adinath
+nare\textbackslash{}.conda\textbackslash{}envs\textbackslash{}ts\_image\_env\textbackslash{}lib\textbackslash{}site-packages (from matplotlib) (3.2.5)
+Requirement already satisfied: importlib-resources>=3.2.0 in c:\textbackslash{}users\textbackslash{}adinath
+nare\textbackslash{}.conda\textbackslash{}envs\textbackslash{}ts\_image\_env\textbackslash{}lib\textbackslash{}site-packages (from matplotlib) (6.5.2)
+Requirement already satisfied: scipy>=1.6.0 in c:\textbackslash{}users\textbackslash{}adinath
+nare\textbackslash{}.conda\textbackslash{}envs\textbackslash{}ts\_image\_env\textbackslash{}lib\textbackslash{}site-packages (from scikit-learn) (1.13.1)
+Requirement already satisfied: joblib>=1.2.0 in c:\textbackslash{}users\textbackslash{}adinath
+nare\textbackslash{}.conda\textbackslash{}envs\textbackslash{}ts\_image\_env\textbackslash{}lib\textbackslash{}site-packages (from scikit-learn) (1.5.2)
+Requirement already satisfied: threadpoolctl>=3.1.0 in c:\textbackslash{}users\textbackslash{}adinath
+nare\textbackslash{}.conda\textbackslash{}envs\textbackslash{}ts\_image\_env\textbackslash{}lib\textbackslash{}site-packages (from scikit-learn) (3.6.0)
+Collecting smart\_open>=1.8.1 (from gensim)
+  Downloading smart\_open-7.5.0-py3-none-any.whl.metadata (24 kB)
+Collecting click (from nltk)
+  Downloading click-8.1.8-py3-none-any.whl.metadata (2.3 kB)
+Collecting regex>=2021.8.3 (from nltk)
+  Downloading regex-2025.11.3-cp39-cp39-win\_amd64.whl.metadata (41 kB)
+Requirement already satisfied: tqdm in c:\textbackslash{}users\textbackslash{}adinath
+nare\textbackslash{}.conda\textbackslash{}envs\textbackslash{}ts\_image\_env\textbackslash{}lib\textbackslash{}site-packages (from nltk) (4.67.1)
+Requirement already satisfied: zipp>=3.1.0 in c:\textbackslash{}users\textbackslash{}adinath
+nare\textbackslash{}.conda\textbackslash{}envs\textbackslash{}ts\_image\_env\textbackslash{}lib\textbackslash{}site-packages (from importlib-
+resources>=3.2.0->matplotlib) (3.23.0)
+Requirement already satisfied: six>=1.5 in c:\textbackslash{}users\textbackslash{}adinath
+nare\textbackslash{}.conda\textbackslash{}envs\textbackslash{}ts\_image\_env\textbackslash{}lib\textbackslash{}site-packages (from python-
+dateutil>=2.8.2->pandas) (1.17.0)
+Requirement already satisfied: wrapt in c:\textbackslash{}users\textbackslash{}adinath
+nare\textbackslash{}.conda\textbackslash{}envs\textbackslash{}ts\_image\_env\textbackslash{}lib\textbackslash{}site-packages (from smart\_open>=1.8.1->gensim)
+(1.14.2)
+Requirement already satisfied: colorama in c:\textbackslash{}users\textbackslash{}adinath
+nare\textbackslash{}.conda\textbackslash{}envs\textbackslash{}ts\_image\_env\textbackslash{}lib\textbackslash{}site-packages (from click->nltk) (0.4.6)
+Downloading gensim-4.4.0-cp39-cp39-win\_amd64.whl (24.4 MB)
+   ---------------------------------------- 0.0/24.4 MB ? eta -:--:--
+   ---------------------------------------- 0.0/24.4 MB ? eta -:--:--
+   ---------------------------------------- 0.0/24.4 MB ? eta -:--:--
+   ---------------------------------------- 0.0/24.4 MB ? eta -:--:--
+   ---------------------------------------- 0.0/24.4 MB ? eta -:--:--
+   ---------------------------------------- 0.0/24.4 MB ? eta -:--:--
+   ---------------------------------------- 0.0/24.4 MB ? eta -:--:--
+   ---------------------------------------- 0.0/24.4 MB ? eta -:--:--
+   ---------------------------------------- 0.0/24.4 MB ? eta -:--:--
+   ---------------------------------------- 0.0/24.4 MB ? eta -:--:--
+   ---------------------------------------- 0.0/24.4 MB ? eta -:--:--
+   ---------------------------------------- 0.0/24.4 MB ? eta -:--:--
+   ---------------------------------------- 0.0/24.4 MB ? eta -:--:--
+   ---------------------------------------- 0.0/24.4 MB ? eta -:--:--
+   ---------------------------------------- 0.0/24.4 MB ? eta -:--:--
+   ---------------------------------------- 0.0/24.4 MB ? eta -:--:--
+   ---------------------------------------- 0.0/24.4 MB ? eta -:--:--
+   ---------------------------------------- 0.0/24.4 MB ? eta -:--:--
+   ---------------------------------------- 0.0/24.4 MB ? eta -:--:--
+   ---------------------------------------- 0.0/24.4 MB ? eta -:--:--
+   ---------------------------------------- 0.0/24.4 MB ? eta -:--:--
+   ---------------------------------------- 0.0/24.4 MB ? eta -:--:--
+   ---------------------------------------- 0.0/24.4 MB ? eta -:--:--
+   ---------------------------------------- 0.0/24.4 MB ? eta -:--:--
+   ---------------------------------------- 0.0/24.4 MB ? eta -:--:--
+   ---------------------------------------- 0.0/24.4 MB ? eta -:--:--
+   ---------------------------------------- 0.0/24.4 MB ? eta -:--:--
+   ---------------------------------------- 0.0/24.4 MB ? eta -:--:--
+   ---------------------------------------- 0.0/24.4 MB ? eta -:--:--
+   ---------------------------------------- 0.0/24.4 MB ? eta -:--:--
+   ---------------------------------------- 0.0/24.4 MB ? eta -:--:--
+   ---------------------------------------- 0.0/24.4 MB ? eta -:--:--
+   ---------------------------------------- 0.0/24.4 MB ? eta -:--:--
+   ---------------------------------------- 0.0/24.4 MB ? eta -:--:--
+   ---------------------------------------- 0.0/24.4 MB ? eta -:--:--
+   ---------------------------------------- 0.0/24.4 MB ? eta -:--:--
+   ---------------------------------------- 0.0/24.4 MB ? eta -:--:--
+   ---------------------------------------- 0.0/24.4 MB ? eta -:--:--
+   ---------------------------------------- 0.0/24.4 MB ? eta -:--:--
+   ---------------------------------------- 0.0/24.4 MB ? eta -:--:--
+   ---------------------------------------- 0.0/24.4 MB ? eta -:--:--
+   ---------------------------------------- 0.3/24.4 MB ? eta -:--:--
+   ---------------------------------------- 0.3/24.4 MB ? eta -:--:--
+   ---------------------------------------- 0.3/24.4 MB ? eta -:--:--
+   ---------------------------------------- 0.3/24.4 MB ? eta -:--:--
+   ---------------------------------------- 0.3/24.4 MB ? eta -:--:--
+   ---------------------------------------- 0.3/24.4 MB ? eta -:--:--
+   ---------------------------------------- 0.3/24.4 MB ? eta -:--:--
+   ---------------------------------------- 0.3/24.4 MB ? eta -:--:--
+   ---------------------------------------- 0.3/24.4 MB ? eta -:--:--
+   ---------------------------------------- 0.3/24.4 MB ? eta -:--:--
+   ---------------------------------------- 0.3/24.4 MB ? eta -:--:--
+   ---------------------------------------- 0.3/24.4 MB ? eta -:--:--
+   ---------------------------------------- 0.3/24.4 MB ? eta -:--:--
+   ---------------------------------------- 0.3/24.4 MB ? eta -:--:--
+   ---------------------------------------- 0.3/24.4 MB ? eta -:--:--
+   ---------------------------------------- 0.3/24.4 MB ? eta -:--:--
+   ---------------------------------------- 0.3/24.4 MB ? eta -:--:--
+   ---------------------------------------- 0.3/24.4 MB ? eta -:--:--
+    --------------------------------------- 0.5/24.4 MB 71.1 kB/s eta 0:05:36
+    --------------------------------------- 0.5/24.4 MB 71.1 kB/s eta 0:05:36
+    --------------------------------------- 0.5/24.4 MB 71.1 kB/s eta 0:05:36
+    --------------------------------------- 0.5/24.4 MB 71.1 kB/s eta 0:05:36
+    --------------------------------------- 0.5/24.4 MB 71.1 kB/s eta 0:05:36
+    --------------------------------------- 0.5/24.4 MB 71.1 kB/s eta 0:05:36
+    --------------------------------------- 0.5/24.4 MB 71.1 kB/s eta 0:05:36
+    --------------------------------------- 0.5/24.4 MB 71.1 kB/s eta 0:05:36
+    --------------------------------------- 0.5/24.4 MB 71.1 kB/s eta 0:05:36
+    --------------------------------------- 0.5/24.4 MB 71.1 kB/s eta 0:05:36
+    --------------------------------------- 0.5/24.4 MB 71.1 kB/s eta 0:05:36
+    --------------------------------------- 0.5/24.4 MB 71.1 kB/s eta 0:05:36
+    --------------------------------------- 0.5/24.4 MB 71.1 kB/s eta 0:05:36
+    --------------------------------------- 0.5/24.4 MB 71.1 kB/s eta 0:05:36
+    --------------------------------------- 0.5/24.4 MB 71.1 kB/s eta 0:05:36
+    --------------------------------------- 0.5/24.4 MB 71.1 kB/s eta 0:05:36
+    --------------------------------------- 0.5/24.4 MB 71.1 kB/s eta 0:05:36
+    --------------------------------------- 0.5/24.4 MB 71.1 kB/s eta 0:05:36
+    --------------------------------------- 0.5/24.4 MB 71.1 kB/s eta 0:05:36
+    --------------------------------------- 0.5/24.4 MB 71.1 kB/s eta 0:05:36
+    --------------------------------------- 0.5/24.4 MB 71.1 kB/s eta 0:05:36
+    --------------------------------------- 0.5/24.4 MB 71.1 kB/s eta 0:05:36
+    --------------------------------------- 0.5/24.4 MB 71.1 kB/s eta 0:05:36
+   - -------------------------------------- 0.8/24.4 MB 61.0 kB/s eta 0:06:28
+   - -------------------------------------- 0.8/24.4 MB 61.0 kB/s eta 0:06:28
+   - -------------------------------------- 0.8/24.4 MB 61.0 kB/s eta 0:06:28
+   - -------------------------------------- 0.8/24.4 MB 61.0 kB/s eta 0:06:28
+   - -------------------------------------- 0.8/24.4 MB 61.0 kB/s eta 0:06:28
+   - -------------------------------------- 0.8/24.4 MB 61.0 kB/s eta 0:06:28
+   - -------------------------------------- 0.8/24.4 MB 61.0 kB/s eta 0:06:28
+   - -------------------------------------- 0.8/24.4 MB 61.0 kB/s eta 0:06:28
+   - -------------------------------------- 0.8/24.4 MB 61.0 kB/s eta 0:06:28
+   - -------------------------------------- 0.8/24.4 MB 61.0 kB/s eta 0:06:28
+   - -------------------------------------- 0.8/24.4 MB 61.0 kB/s eta 0:06:28
+   - -------------------------------------- 0.8/24.4 MB 61.0 kB/s eta 0:06:28
+   - -------------------------------------- 0.8/24.4 MB 61.0 kB/s eta 0:06:28
+   - -------------------------------------- 0.8/24.4 MB 61.0 kB/s eta 0:06:28
+   - -------------------------------------- 0.8/24.4 MB 61.0 kB/s eta 0:06:28
+   - -------------------------------------- 0.8/24.4 MB 61.0 kB/s eta 0:06:28
+   - -------------------------------------- 0.8/24.4 MB 61.0 kB/s eta 0:06:28
+   - -------------------------------------- 0.8/24.4 MB 61.0 kB/s eta 0:06:28
+   - -------------------------------------- 0.8/24.4 MB 61.0 kB/s eta 0:06:28
+   - -------------------------------------- 0.8/24.4 MB 61.0 kB/s eta 0:06:28
+   - -------------------------------------- 0.8/24.4 MB 61.0 kB/s eta 0:06:28
+   - -------------------------------------- 0.8/24.4 MB 61.0 kB/s eta 0:06:28
+   - -------------------------------------- 0.8/24.4 MB 61.0 kB/s eta 0:06:28
+   - -------------------------------------- 0.8/24.4 MB 61.0 kB/s eta 0:06:28
+   - -------------------------------------- 0.8/24.4 MB 61.0 kB/s eta 0:06:28
+   - -------------------------------------- 0.8/24.4 MB 61.0 kB/s eta 0:06:28
+   - -------------------------------------- 0.8/24.4 MB 61.0 kB/s eta 0:06:28
+   - -------------------------------------- 0.8/24.4 MB 61.0 kB/s eta 0:06:28
+   - -------------------------------------- 0.8/24.4 MB 61.0 kB/s eta 0:06:28
+   - -------------------------------------- 0.8/24.4 MB 61.0 kB/s eta 0:06:28
+   - -------------------------------------- 0.8/24.4 MB 61.0 kB/s eta 0:06:28
+   - -------------------------------------- 0.8/24.4 MB 61.0 kB/s eta 0:06:28
+   - -------------------------------------- 1.0/24.4 MB 51.2 kB/s eta 0:07:37
+   - -------------------------------------- 1.0/24.4 MB 51.2 kB/s eta 0:07:37
+   - -------------------------------------- 1.0/24.4 MB 51.2 kB/s eta 0:07:37
+   - -------------------------------------- 1.0/24.4 MB 51.2 kB/s eta 0:07:37
+   - -------------------------------------- 1.0/24.4 MB 51.2 kB/s eta 0:07:37
+   - -------------------------------------- 1.0/24.4 MB 51.2 kB/s eta 0:07:37
+   - -------------------------------------- 1.0/24.4 MB 51.2 kB/s eta 0:07:37
+   - -------------------------------------- 1.0/24.4 MB 51.2 kB/s eta 0:07:37
+   - -------------------------------------- 1.0/24.4 MB 51.2 kB/s eta 0:07:37
+   - -------------------------------------- 1.0/24.4 MB 51.2 kB/s eta 0:07:37
+   - -------------------------------------- 1.0/24.4 MB 51.2 kB/s eta 0:07:37
+   - -------------------------------------- 1.0/24.4 MB 51.2 kB/s eta 0:07:37
+   - -------------------------------------- 1.0/24.4 MB 51.2 kB/s eta 0:07:37
+   - -------------------------------------- 1.0/24.4 MB 51.2 kB/s eta 0:07:37
+   - -------------------------------------- 1.0/24.4 MB 51.2 kB/s eta 0:07:37
+   - -------------------------------------- 1.0/24.4 MB 51.2 kB/s eta 0:07:37
+   - -------------------------------------- 1.0/24.4 MB 51.2 kB/s eta 0:07:37
+   - -------------------------------------- 1.0/24.4 MB 51.2 kB/s eta 0:07:37
+   - -------------------------------------- 1.0/24.4 MB 51.2 kB/s eta 0:07:37
+   - -------------------------------------- 1.0/24.4 MB 51.2 kB/s eta 0:07:37
+   - -------------------------------------- 1.0/24.4 MB 51.2 kB/s eta 0:07:37
+   - -------------------------------------- 1.0/24.4 MB 51.2 kB/s eta 0:07:37
+   - -------------------------------------- 1.0/24.4 MB 51.2 kB/s eta 0:07:37
+   - -------------------------------------- 1.0/24.4 MB 51.2 kB/s eta 0:07:37
+   - -------------------------------------- 1.0/24.4 MB 51.2 kB/s eta 0:07:37
+   - -------------------------------------- 1.0/24.4 MB 51.2 kB/s eta 0:07:37
+   - -------------------------------------- 1.0/24.4 MB 51.2 kB/s eta 0:07:37
+   - -------------------------------------- 1.0/24.4 MB 51.2 kB/s eta 0:07:37
+   - -------------------------------------- 1.0/24.4 MB 51.2 kB/s eta 0:07:37
+   - -------------------------------------- 1.0/24.4 MB 51.2 kB/s eta 0:07:37
+   - -------------------------------------- 1.0/24.4 MB 51.2 kB/s eta 0:07:37
+   - -------------------------------------- 1.0/24.4 MB 51.2 kB/s eta 0:07:37
+   - -------------------------------------- 1.0/24.4 MB 51.2 kB/s eta 0:07:37
+   - -------------------------------------- 1.0/24.4 MB 51.2 kB/s eta 0:07:37
+   - -------------------------------------- 1.0/24.4 MB 51.2 kB/s eta 0:07:37
+   - -------------------------------------- 1.0/24.4 MB 51.2 kB/s eta 0:07:37
+   - -------------------------------------- 1.0/24.4 MB 51.2 kB/s eta 0:07:37
+   - -------------------------------------- 1.0/24.4 MB 51.2 kB/s eta 0:07:37
+   - -------------------------------------- 1.0/24.4 MB 51.2 kB/s eta 0:07:37
+   - -------------------------------------- 1.0/24.4 MB 51.2 kB/s eta 0:07:37
+   - -------------------------------------- 1.0/24.4 MB 51.2 kB/s eta 0:07:37
+   - -------------------------------------- 1.0/24.4 MB 51.2 kB/s eta 0:07:37
+   - -------------------------------------- 1.0/24.4 MB 51.2 kB/s eta 0:07:37
+   - -------------------------------------- 1.0/24.4 MB 51.2 kB/s eta 0:07:37
+   - -------------------------------------- 1.0/24.4 MB 51.2 kB/s eta 0:07:37
+   - -------------------------------------- 1.0/24.4 MB 51.2 kB/s eta 0:07:37
+   - -------------------------------------- 1.0/24.4 MB 51.2 kB/s eta 0:07:37
+   - -------------------------------------- 1.0/24.4 MB 51.2 kB/s eta 0:07:37
+   - -------------------------------------- 1.0/24.4 MB 51.2 kB/s eta 0:07:37
+   - -------------------------------------- 1.0/24.4 MB 51.2 kB/s eta 0:07:37
+   - -------------------------------------- 1.0/24.4 MB 51.2 kB/s eta 0:07:37
+   - -------------------------------------- 1.0/24.4 MB 51.2 kB/s eta 0:07:37
+   - -------------------------------------- 1.0/24.4 MB 51.2 kB/s eta 0:07:37
+   - -------------------------------------- 1.0/24.4 MB 51.2 kB/s eta 0:07:37
+   - -------------------------------------- 1.0/24.4 MB 51.2 kB/s eta 0:07:37
+   - -------------------------------------- 1.0/24.4 MB 51.2 kB/s eta 0:07:37
+   - -------------------------------------- 1.0/24.4 MB 51.2 kB/s eta 0:07:37
+   - -------------------------------------- 1.0/24.4 MB 51.2 kB/s eta 0:07:37
+   -- ------------------------------------- 1.3/24.4 MB 38.2 kB/s eta 0:10:05
+   -- ------------------------------------- 1.3/24.4 MB 38.2 kB/s eta 0:10:05
+   -- ------------------------------------- 1.3/24.4 MB 38.2 kB/s eta 0:10:05
+   -- ------------------------------------- 1.3/24.4 MB 38.2 kB/s eta 0:10:05
+   -- ------------------------------------- 1.3/24.4 MB 38.2 kB/s eta 0:10:05
+   -- ------------------------------------- 1.3/24.4 MB 38.2 kB/s eta 0:10:05
+   -- ------------------------------------- 1.6/24.4 MB 45.4 kB/s eta 0:08:23
+   -- ------------------------------------- 1.6/24.4 MB 45.4 kB/s eta 0:08:23
+   -- ------------------------------------- 1.6/24.4 MB 45.4 kB/s eta 0:08:23
+   --- ------------------------------------ 1.8/24.4 MB 53.6 kB/s eta 0:07:01
+   --- ------------------------------------ 1.8/24.4 MB 53.6 kB/s eta 0:07:01
+   --- ------------------------------------ 1.8/24.4 MB 53.6 kB/s eta 0:07:01
+   --- ------------------------------------ 2.1/24.4 MB 61.3 kB/s eta 0:06:04
+   --- ------------------------------------ 2.1/24.4 MB 61.3 kB/s eta 0:06:04
+   --- ------------------------------------ 2.4/24.4 MB 68.6 kB/s eta 0:05:22
+   ---- ----------------------------------- 2.6/24.4 MB 77.5 kB/s eta 0:04:41
+   ---- ----------------------------------- 2.6/24.4 MB 77.5 kB/s eta 0:04:41
+   ---- ----------------------------------- 2.9/24.4 MB 85.9 kB/s eta 0:04:11
+   ---- ----------------------------------- 2.9/24.4 MB 85.9 kB/s eta 0:04:11
+   ----- ---------------------------------- 3.1/24.4 MB 94.5 kB/s eta 0:03:45
+   ----- ---------------------------------- 3.1/24.4 MB 94.5 kB/s eta 0:03:45
+   ----- ---------------------------------- 3.4/24.4 MB 102.4 kB/s eta 0:03:26
+   ------ --------------------------------- 3.7/24.4 MB 110.7 kB/s eta 0:03:08
+   ------ --------------------------------- 3.9/24.4 MB 118.9 kB/s eta 0:02:53
+   ------ --------------------------------- 3.9/24.4 MB 118.9 kB/s eta 0:02:53
+   ------ --------------------------------- 4.2/24.4 MB 126.4 kB/s eta 0:02:40
+   ------- -------------------------------- 4.5/24.4 MB 134.3 kB/s eta 0:02:29
+   ------- -------------------------------- 4.5/24.4 MB 134.3 kB/s eta 0:02:29
+   ------- -------------------------------- 4.7/24.4 MB 141.6 kB/s eta 0:02:19
+   -------- ------------------------------- 5.0/24.4 MB 149.3 kB/s eta 0:02:11
+   -------- ------------------------------- 5.2/24.4 MB 177.5 kB/s eta 0:01:48
+   --------- ------------------------------ 5.5/24.4 MB 185.5 kB/s eta 0:01:42
+   --------- ------------------------------ 5.8/24.4 MB 193.9 kB/s eta 0:01:37
+   --------- ------------------------------ 6.0/24.4 MB 203.0 kB/s eta 0:01:31
+   --------- ------------------------------ 6.0/24.4 MB 203.0 kB/s eta 0:01:31
+   ---------- ----------------------------- 6.3/24.4 MB 210.3 kB/s eta 0:01:27
+   ----------- ---------------------------- 6.8/24.4 MB 227.0 kB/s eta 0:01:18
+   ----------- ---------------------------- 6.8/24.4 MB 227.0 kB/s eta 0:01:18
+   ----------- ---------------------------- 7.1/24.4 MB 234.1 kB/s eta 0:01:14
+   ------------ --------------------------- 7.3/24.4 MB 241.1 kB/s eta 0:01:11
+   ------------ --------------------------- 7.6/24.4 MB 249.1 kB/s eta 0:01:08
+   ------------ --------------------------- 7.9/24.4 MB 256.4 kB/s eta 0:01:05
+   ------------ --------------------------- 7.9/24.4 MB 256.4 kB/s eta 0:01:05
+   ------------- -------------------------- 8.4/24.4 MB 271.5 kB/s eta 0:00:59
+   ------------- -------------------------- 8.4/24.4 MB 271.5 kB/s eta 0:00:59
+   -------------- ------------------------- 8.7/24.4 MB 277.6 kB/s eta 0:00:57
+   -------------- ------------------------- 8.9/24.4 MB 284.1 kB/s eta 0:00:55
+   --------------- ------------------------ 9.2/24.4 MB 291.9 kB/s eta 0:00:53
+   --------------- ------------------------ 9.4/24.4 MB 297.8 kB/s eta 0:00:51
+   --------------- ------------------------ 9.4/24.4 MB 297.8 kB/s eta 0:00:51
+   ---------------- ----------------------- 10.0/24.4 MB 311.5 kB/s eta 0:00:47
+   ---------------- ----------------------- 10.0/24.4 MB 311.5 kB/s eta 0:00:47
+   ---------------- ----------------------- 10.2/24.4 MB 315.9 kB/s eta 0:00:45
+   ----------------- ---------------------- 10.5/24.4 MB 405.6 kB/s eta 0:00:35
+   ----------------- ---------------------- 10.7/24.4 MB 414.7 kB/s eta 0:00:33
+   ------------------ --------------------- 11.0/24.4 MB 420.3 kB/s eta 0:00:32
+   ------------------ --------------------- 11.0/24.4 MB 420.3 kB/s eta 0:00:32
+   ------------------ --------------------- 11.3/24.4 MB 424.9 kB/s eta 0:00:31
+   ------------------ --------------------- 11.5/24.4 MB 430.8 kB/s eta 0:00:30
+   ------------------ --------------------- 11.5/24.4 MB 430.8 kB/s eta 0:00:30
+   ------------------- -------------------- 11.8/24.4 MB 434.8 kB/s eta 0:00:29
+   ------------------- -------------------- 12.1/24.4 MB 442.9 kB/s eta 0:00:28
+   ------------------- -------------------- 12.1/24.4 MB 442.9 kB/s eta 0:00:28
+   -------------------- ------------------- 12.3/24.4 MB 446.2 kB/s eta 0:00:28
+   -------------------- ------------------- 12.6/24.4 MB 451.5 kB/s eta 0:00:27
+   -------------------- ------------------- 12.6/24.4 MB 451.5 kB/s eta 0:00:27
+   --------------------- ------------------ 12.8/24.4 MB 455.1 kB/s eta 0:00:26
+   --------------------- ------------------ 13.1/24.4 MB 459.4 kB/s eta 0:00:25
+   --------------------- ------------------ 13.1/24.4 MB 459.4 kB/s eta 0:00:25
+   --------------------- ------------------ 13.4/24.4 MB 463.6 kB/s eta 0:00:24
+   ---------------------- ----------------- 13.6/24.4 MB 467.9 kB/s eta 0:00:24
+   ---------------------- ----------------- 13.9/24.4 MB 474.1 kB/s eta 0:00:23
+   ---------------------- ----------------- 13.9/24.4 MB 474.1 kB/s eta 0:00:23
+   ---------------------- ----------------- 13.9/24.4 MB 474.1 kB/s eta 0:00:23
+   ----------------------- ---------------- 14.2/24.4 MB 473.9 kB/s eta 0:00:22
+   ----------------------- ---------------- 14.4/24.4 MB 479.1 kB/s eta 0:00:21
+   ----------------------- ---------------- 14.4/24.4 MB 479.1 kB/s eta 0:00:21
+   ------------------------ --------------- 14.9/24.4 MB 489.6 kB/s eta 0:00:20
+   ------------------------ --------------- 15.2/24.4 MB 496.4 kB/s eta 0:00:19
+   ------------------------- -------------- 15.5/24.4 MB 501.2 kB/s eta 0:00:18
+   ------------------------- -------------- 15.5/24.4 MB 501.2 kB/s eta 0:00:18
+   ------------------------- -------------- 15.7/24.4 MB 502.4 kB/s eta 0:00:18
+   ------------------------- -------------- 15.7/24.4 MB 502.4 kB/s eta 0:00:18
+   ------------------------- -------------- 15.7/24.4 MB 502.4 kB/s eta 0:00:18
+   -------------------------- ------------- 16.3/24.4 MB 509.7 kB/s eta 0:00:16
+   --------------------------- ------------ 16.5/24.4 MB 515.5 kB/s eta 0:00:16
+   --------------------------- ------------ 16.5/24.4 MB 515.5 kB/s eta 0:00:16
+   --------------------------- ------------ 16.8/24.4 MB 848.2 kB/s eta 0:00:09
+   --------------------------- ------------ 17.0/24.4 MB 848.0 kB/s eta 0:00:09
+   ---------------------------- ----------- 17.3/24.4 MB 849.3 kB/s eta 0:00:09
+   ---------------------------- ----------- 17.3/24.4 MB 849.3 kB/s eta 0:00:09
+   ----------------------------- ---------- 17.8/24.4 MB 858.6 kB/s eta 0:00:08
+   ----------------------------- ---------- 17.8/24.4 MB 858.6 kB/s eta 0:00:08
+   ----------------------------- ---------- 18.1/24.4 MB 858.3 kB/s eta 0:00:08
+   ----------------------------- ---------- 18.1/24.4 MB 858.3 kB/s eta 0:00:08
+   ------------------------------ --------- 18.6/24.4 MB 863.7 kB/s eta 0:00:07
+   ------------------------------ --------- 18.9/24.4 MB 866.7 kB/s eta 0:00:07
+   ------------------------------ --------- 18.9/24.4 MB 866.7 kB/s eta 0:00:07
+   ------------------------------- -------- 19.1/24.4 MB 864.3 kB/s eta 0:00:07
+   ------------------------------- -------- 19.4/24.4 MB 869.1 kB/s eta 0:00:06
+   -------------------------------- ------- 19.7/24.4 MB 869.9 kB/s eta 0:00:06
+   -------------------------------- ------- 19.9/24.4 MB 873.3 kB/s eta 0:00:06
+   -------------------------------- ------- 19.9/24.4 MB 873.3 kB/s eta 0:00:06
+   --------------------------------- ------ 20.2/24.4 MB 869.7 kB/s eta 0:00:05
+   --------------------------------- ------ 20.2/24.4 MB 869.7 kB/s eta 0:00:05
+   --------------------------------- ------ 20.4/24.4 MB 866.8 kB/s eta 0:00:05
+   --------------------------------- ------ 20.7/24.4 MB 871.2 kB/s eta 0:00:05
+   ---------------------------------- ----- 21.0/24.4 MB 872.0 kB/s eta 0:00:04
+   ---------------------------------- ----- 21.0/24.4 MB 872.0 kB/s eta 0:00:04
+   ----------------------------------- ---- 21.5/24.4 MB 877.6 kB/s eta 0:00:04
+   ----------------------------------- ---- 21.5/24.4 MB 877.6 kB/s eta 0:00:04
+   ----------------------------------- ---- 21.8/24.4 MB 874.1 kB/s eta 0:00:04
+   ------------------------------------ --- 22.0/24.4 MB 876.0 kB/s eta 0:00:03
+   ------------------------------------ --- 22.3/24.4 MB 881.3 kB/s eta 0:00:03
+   ------------------------------------ --- 22.3/24.4 MB 881.3 kB/s eta 0:00:03
+   ------------------------------------ --- 22.3/24.4 MB 881.3 kB/s eta 0:00:03
+   ------------------------------------- -- 22.8/24.4 MB 877.9 kB/s eta 0:00:02
+   ------------------------------------- -- 22.8/24.4 MB 877.9 kB/s eta 0:00:02
+   ------------------------------------- -- 23.1/24.4 MB 880.8 kB/s eta 0:00:02
+   -------------------------------------- - 23.3/24.4 MB 879.7 kB/s eta 0:00:02
+   -------------------------------------- - 23.6/24.4 MB 885.7 kB/s eta 0:00:01
+   ---------------------------------------  23.9/24.4 MB 886.8 kB/s eta 0:00:01
+   ---------------------------------------  24.1/24.4 MB 888.4 kB/s eta 0:00:01
+   ---------------------------------------  24.4/24.4 MB 891.0 kB/s eta 0:00:01
+   ---------------------------------------- 24.4/24.4 MB 887.4 kB/s  0:01:02
+Using cached nltk-3.9.2-py3-none-any.whl (1.5 MB)
+Downloading regex-2025.11.3-cp39-cp39-win\_amd64.whl (277 kB)
+Downloading smart\_open-7.5.0-py3-none-any.whl (63 kB)
+Downloading click-8.1.8-py3-none-any.whl (98 kB)
+Installing collected packages: smart\_open, regex, click, nltk, gensim
+
+   ---------------------------------------- 0/5 [smart\_open]
+   -------- ------------------------------- 1/5 [regex]
+   ---------------- ----------------------- 2/5 [click]
+   ---------------- ----------------------- 2/5 [click]
+   ---------------- ----------------------- 2/5 [click]
+   ------------------------ --------------- 3/5 [nltk]
+   ------------------------ --------------- 3/5 [nltk]
+   ------------------------ --------------- 3/5 [nltk]
+   ------------------------ --------------- 3/5 [nltk]
+   ------------------------ --------------- 3/5 [nltk]
+   ------------------------ --------------- 3/5 [nltk]
+   ------------------------ --------------- 3/5 [nltk]
+   ------------------------ --------------- 3/5 [nltk]
+   ------------------------ --------------- 3/5 [nltk]
+   ------------------------ --------------- 3/5 [nltk]
+   ------------------------ --------------- 3/5 [nltk]
+   ------------------------ --------------- 3/5 [nltk]
+   ------------------------ --------------- 3/5 [nltk]
+   ------------------------ --------------- 3/5 [nltk]
+   ------------------------ --------------- 3/5 [nltk]
+   ------------------------ --------------- 3/5 [nltk]
+   ------------------------ --------------- 3/5 [nltk]
+   ------------------------ --------------- 3/5 [nltk]
+   ------------------------ --------------- 3/5 [nltk]
+   ------------------------ --------------- 3/5 [nltk]
+   ------------------------ --------------- 3/5 [nltk]
+   ------------------------ --------------- 3/5 [nltk]
+   ------------------------ --------------- 3/5 [nltk]
+   ------------------------ --------------- 3/5 [nltk]
+   ------------------------ --------------- 3/5 [nltk]
+   ------------------------ --------------- 3/5 [nltk]
+   ------------------------ --------------- 3/5 [nltk]
+   ------------------------ --------------- 3/5 [nltk]
+   ------------------------ --------------- 3/5 [nltk]
+   ------------------------ --------------- 3/5 [nltk]
+   ------------------------ --------------- 3/5 [nltk]
+   ------------------------ --------------- 3/5 [nltk]
+   ------------------------ --------------- 3/5 [nltk]
+   ------------------------ --------------- 3/5 [nltk]
+   ------------------------ --------------- 3/5 [nltk]
+   ------------------------ --------------- 3/5 [nltk]
+   ------------------------ --------------- 3/5 [nltk]
+   ------------------------ --------------- 3/5 [nltk]
+   ------------------------ --------------- 3/5 [nltk]
+   ------------------------ --------------- 3/5 [nltk]
+   ------------------------ --------------- 3/5 [nltk]
+   ------------------------ --------------- 3/5 [nltk]
+   ------------------------ --------------- 3/5 [nltk]
+   ------------------------ --------------- 3/5 [nltk]
+   -------------------------------- ------- 4/5 [gensim]
+   -------------------------------- ------- 4/5 [gensim]
+   -------------------------------- ------- 4/5 [gensim]
+   -------------------------------- ------- 4/5 [gensim]
+   -------------------------------- ------- 4/5 [gensim]
+   -------------------------------- ------- 4/5 [gensim]
+   -------------------------------- ------- 4/5 [gensim]
+   -------------------------------- ------- 4/5 [gensim]
+   -------------------------------- ------- 4/5 [gensim]
+   -------------------------------- ------- 4/5 [gensim]
+   -------------------------------- ------- 4/5 [gensim]
+   -------------------------------- ------- 4/5 [gensim]
+   -------------------------------- ------- 4/5 [gensim]
+   -------------------------------- ------- 4/5 [gensim]
+   -------------------------------- ------- 4/5 [gensim]
+   -------------------------------- ------- 4/5 [gensim]
+   -------------------------------- ------- 4/5 [gensim]
+   -------------------------------- ------- 4/5 [gensim]
+   -------------------------------- ------- 4/5 [gensim]
+   -------------------------------- ------- 4/5 [gensim]
+   ---------------------------------------- 5/5 [gensim]
+
+Successfully installed click-8.1.8 gensim-4.4.0 nltk-3.9.2 regex-2025.11.3
+smart\_open-7.5.0
+Requirement already satisfied: pip in c:\textbackslash{}users\textbackslash{}adinath
+nare\textbackslash{}.conda\textbackslash{}envs\textbackslash{}ts\_image\_env\textbackslash{}lib\textbackslash{}site-packages (25.2)
+Collecting pip
+  Using cached pip-25.3-py3-none-any.whl.metadata (4.7 kB)
+Requirement already satisfied: pandas in c:\textbackslash{}users\textbackslash{}adinath
+nare\textbackslash{}.conda\textbackslash{}envs\textbackslash{}ts\_image\_env\textbackslash{}lib\textbackslash{}site-packages (2.3.3)
+Requirement already satisfied: numpy in c:\textbackslash{}users\textbackslash{}adinath
+nare\textbackslash{}.conda\textbackslash{}envs\textbackslash{}ts\_image\_env\textbackslash{}lib\textbackslash{}site-packages (1.26.4)
+Collecting numpy
+  Using cached numpy-2.0.2-cp39-cp39-win\_amd64.whl.metadata (59 kB)
+Requirement already satisfied: matplotlib in c:\textbackslash{}users\textbackslash{}adinath
+nare\textbackslash{}.conda\textbackslash{}envs\textbackslash{}ts\_image\_env\textbackslash{}lib\textbackslash{}site-packages (3.9.4)
+Requirement already satisfied: seaborn in c:\textbackslash{}users\textbackslash{}adinath
+nare\textbackslash{}.conda\textbackslash{}envs\textbackslash{}ts\_image\_env\textbackslash{}lib\textbackslash{}site-packages (0.13.2)
+Requirement already satisfied: scikit-learn in c:\textbackslash{}users\textbackslash{}adinath
+nare\textbackslash{}.conda\textbackslash{}envs\textbackslash{}ts\_image\_env\textbackslash{}lib\textbackslash{}site-packages (1.6.1)
+Requirement already satisfied: gensim in c:\textbackslash{}users\textbackslash{}adinath
+nare\textbackslash{}.conda\textbackslash{}envs\textbackslash{}ts\_image\_env\textbackslash{}lib\textbackslash{}site-packages (4.4.0)
+Requirement already satisfied: nltk in c:\textbackslash{}users\textbackslash{}adinath
+nare\textbackslash{}.conda\textbackslash{}envs\textbackslash{}ts\_image\_env\textbackslash{}lib\textbackslash{}site-packages (3.9.2)
+Requirement already satisfied: python-dateutil>=2.8.2 in c:\textbackslash{}users\textbackslash{}adinath
+nare\textbackslash{}.conda\textbackslash{}envs\textbackslash{}ts\_image\_env\textbackslash{}lib\textbackslash{}site-packages (from pandas) (2.9.0.post0)
+Requirement already satisfied: pytz>=2020.1 in c:\textbackslash{}users\textbackslash{}adinath
+nare\textbackslash{}.conda\textbackslash{}envs\textbackslash{}ts\_image\_env\textbackslash{}lib\textbackslash{}site-packages (from pandas) (2025.2)
+Requirement already satisfied: tzdata>=2022.7 in c:\textbackslash{}users\textbackslash{}adinath
+nare\textbackslash{}.conda\textbackslash{}envs\textbackslash{}ts\_image\_env\textbackslash{}lib\textbackslash{}site-packages (from pandas) (2025.2)
+Requirement already satisfied: contourpy>=1.0.1 in c:\textbackslash{}users\textbackslash{}adinath
+nare\textbackslash{}.conda\textbackslash{}envs\textbackslash{}ts\_image\_env\textbackslash{}lib\textbackslash{}site-packages (from matplotlib) (1.3.0)
+Requirement already satisfied: cycler>=0.10 in c:\textbackslash{}users\textbackslash{}adinath
+nare\textbackslash{}.conda\textbackslash{}envs\textbackslash{}ts\_image\_env\textbackslash{}lib\textbackslash{}site-packages (from matplotlib) (0.12.1)
+Requirement already satisfied: fonttools>=4.22.0 in c:\textbackslash{}users\textbackslash{}adinath
+nare\textbackslash{}.conda\textbackslash{}envs\textbackslash{}ts\_image\_env\textbackslash{}lib\textbackslash{}site-packages (from matplotlib) (4.60.1)
+Requirement already satisfied: kiwisolver>=1.3.1 in c:\textbackslash{}users\textbackslash{}adinath
+nare\textbackslash{}.conda\textbackslash{}envs\textbackslash{}ts\_image\_env\textbackslash{}lib\textbackslash{}site-packages (from matplotlib) (1.4.7)
+Requirement already satisfied: packaging>=20.0 in c:\textbackslash{}users\textbackslash{}adinath
+nare\textbackslash{}.conda\textbackslash{}envs\textbackslash{}ts\_image\_env\textbackslash{}lib\textbackslash{}site-packages (from matplotlib) (25.0)
+Requirement already satisfied: pillow>=8 in c:\textbackslash{}users\textbackslash{}adinath
+nare\textbackslash{}.conda\textbackslash{}envs\textbackslash{}ts\_image\_env\textbackslash{}lib\textbackslash{}site-packages (from matplotlib) (11.3.0)
+Requirement already satisfied: pyparsing>=2.3.1 in c:\textbackslash{}users\textbackslash{}adinath
+nare\textbackslash{}.conda\textbackslash{}envs\textbackslash{}ts\_image\_env\textbackslash{}lib\textbackslash{}site-packages (from matplotlib) (3.2.5)
+Requirement already satisfied: importlib-resources>=3.2.0 in c:\textbackslash{}users\textbackslash{}adinath
+nare\textbackslash{}.conda\textbackslash{}envs\textbackslash{}ts\_image\_env\textbackslash{}lib\textbackslash{}site-packages (from matplotlib) (6.5.2)
+Requirement already satisfied: scipy>=1.6.0 in c:\textbackslash{}users\textbackslash{}adinath
+nare\textbackslash{}.conda\textbackslash{}envs\textbackslash{}ts\_image\_env\textbackslash{}lib\textbackslash{}site-packages (from scikit-learn) (1.13.1)
+Requirement already satisfied: joblib>=1.2.0 in c:\textbackslash{}users\textbackslash{}adinath
+nare\textbackslash{}.conda\textbackslash{}envs\textbackslash{}ts\_image\_env\textbackslash{}lib\textbackslash{}site-packages (from scikit-learn) (1.5.2)
+Requirement already satisfied: threadpoolctl>=3.1.0 in c:\textbackslash{}users\textbackslash{}adinath
+nare\textbackslash{}.conda\textbackslash{}envs\textbackslash{}ts\_image\_env\textbackslash{}lib\textbackslash{}site-packages (from scikit-learn) (3.6.0)
+Requirement already satisfied: smart\_open>=1.8.1 in c:\textbackslash{}users\textbackslash{}adinath
+nare\textbackslash{}.conda\textbackslash{}envs\textbackslash{}ts\_image\_env\textbackslash{}lib\textbackslash{}site-packages (from gensim) (7.5.0)
+Requirement already satisfied: click in c:\textbackslash{}users\textbackslash{}adinath
+nare\textbackslash{}.conda\textbackslash{}envs\textbackslash{}ts\_image\_env\textbackslash{}lib\textbackslash{}site-packages (from nltk) (8.1.8)
+Requirement already satisfied: regex>=2021.8.3 in c:\textbackslash{}users\textbackslash{}adinath
+nare\textbackslash{}.conda\textbackslash{}envs\textbackslash{}ts\_image\_env\textbackslash{}lib\textbackslash{}site-packages (from nltk) (2025.11.3)
+Requirement already satisfied: tqdm in c:\textbackslash{}users\textbackslash{}adinath
+nare\textbackslash{}.conda\textbackslash{}envs\textbackslash{}ts\_image\_env\textbackslash{}lib\textbackslash{}site-packages (from nltk) (4.67.1)
+Requirement already satisfied: zipp>=3.1.0 in c:\textbackslash{}users\textbackslash{}adinath
+nare\textbackslash{}.conda\textbackslash{}envs\textbackslash{}ts\_image\_env\textbackslash{}lib\textbackslash{}site-packages (from importlib-
+resources>=3.2.0->matplotlib) (3.23.0)
+Requirement already satisfied: six>=1.5 in c:\textbackslash{}users\textbackslash{}adinath
+nare\textbackslash{}.conda\textbackslash{}envs\textbackslash{}ts\_image\_env\textbackslash{}lib\textbackslash{}site-packages (from python-
+dateutil>=2.8.2->pandas) (1.17.0)
+Requirement already satisfied: wrapt in c:\textbackslash{}users\textbackslash{}adinath
+nare\textbackslash{}.conda\textbackslash{}envs\textbackslash{}ts\_image\_env\textbackslash{}lib\textbackslash{}site-packages (from smart\_open>=1.8.1->gensim)
+(1.14.2)
+Requirement already satisfied: colorama in c:\textbackslash{}users\textbackslash{}adinath
+nare\textbackslash{}.conda\textbackslash{}envs\textbackslash{}ts\_image\_env\textbackslash{}lib\textbackslash{}site-packages (from click->nltk) (0.4.6)
+Using cached pip-25.3-py3-none-any.whl (1.8 MB)
+Using cached numpy-2.0.2-cp39-cp39-win\_amd64.whl (15.9 MB)
+    \end{Verbatim}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+ERROR: To modify pip, please run the following command:
+C:\textbackslash{}Users\textbackslash{}Adinath Nare\textbackslash{}.conda\textbackslash{}envs\textbackslash{}ts\_image\_env\textbackslash{}python.exe -m pip install
+--upgrade pip pandas numpy matplotlib seaborn scikit-learn gensim nltk
+    \end{Verbatim}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{1}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{c+c1}{\PYZsh{} ==============================================================}
+\PY{c+c1}{\PYZsh{}️⃣ CELL 1 — SETUP AND IMPORTS}
+\PY{c+c1}{\PYZsh{} ============================================================== }
+\PY{k+kn}{import} \PY{n+nn}{pandas} \PY{k}{as} \PY{n+nn}{pd}
+\PY{k+kn}{import} \PY{n+nn}{numpy} \PY{k}{as} \PY{n+nn}{np}
+\PY{k+kn}{import} \PY{n+nn}{re}
+\PY{k+kn}{import} \PY{n+nn}{nltk}
+\PY{k+kn}{from} \PY{n+nn}{nltk}\PY{n+nn}{.}\PY{n+nn}{corpus} \PY{k+kn}{import} \PY{n}{stopwords}
+\PY{k+kn}{from} \PY{n+nn}{gensim} \PY{k+kn}{import} \PY{n}{corpora}\PY{p}{,} \PY{n}{models}
+\PY{k+kn}{from} \PY{n+nn}{gensim}\PY{n+nn}{.}\PY{n+nn}{models} \PY{k+kn}{import} \PY{n}{CoherenceModel}
+\PY{k+kn}{import} \PY{n+nn}{matplotlib}\PY{n+nn}{.}\PY{n+nn}{pyplot} \PY{k}{as} \PY{n+nn}{plt}
+\PY{k+kn}{import} \PY{n+nn}{seaborn} \PY{k}{as} \PY{n+nn}{sns}
+\PY{k+kn}{from} \PY{n+nn}{sklearn}\PY{n+nn}{.}\PY{n+nn}{feature\PYZus{}extraction}\PY{n+nn}{.}\PY{n+nn}{text} \PY{k+kn}{import} \PY{n}{ENGLISH\PYZus{}STOP\PYZus{}WORDS}
+\PY{k+kn}{import} \PY{n+nn}{warnings}
+\PY{n}{warnings}\PY{o}{.}\PY{n}{filterwarnings}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{ignore}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+
+\PY{n}{nltk}\PY{o}{.}\PY{n}{download}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{punkt}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{nltk}\PY{o}{.}\PY{n}{download}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{stopwords}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+
+\PY{c+c1}{\PYZsh{} ==============================================================}
+\PY{c+c1}{\PYZsh{}️⃣ CELL 2 — LOAD DATA AND CLEAN COLUMNS}
+\PY{c+c1}{\PYZsh{} ============================================================== }
+\PY{n}{path} \PY{o}{=} \PY{l+s+sa}{r}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{C:}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{Users}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{Adinath Nare}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{Desktop}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{Narendra\PYZus{}Modi\PYZus{}speeches\PYZhy{}master}\PY{l+s+s2}{\PYZbs{}}\PY{l+s+s2}{Mann Ki Baat.xlsx}\PY{l+s+s2}{\PYZdq{}}
+\PY{n}{df} \PY{o}{=} \PY{n}{pd}\PY{o}{.}\PY{n}{read\PYZus{}excel}\PY{p}{(}\PY{n}{path}\PY{p}{)}
+
+\PY{c+c1}{\PYZsh{} Clean column names}
+\PY{n}{df}\PY{o}{.}\PY{n}{columns} \PY{o}{=} \PY{p}{[}\PY{n}{c}\PY{o}{.}\PY{n}{strip}\PY{p}{(}\PY{p}{)}\PY{o}{.}\PY{n}{lower}\PY{p}{(}\PY{p}{)}\PY{o}{.}\PY{n}{replace}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{ }\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{\PYZus{}}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)} \PY{k}{for} \PY{n}{c} \PY{o+ow}{in} \PY{n}{df}\PY{o}{.}\PY{n}{columns}\PY{p}{]}
+\PY{n+nb}{print}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Standardized columns:}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{n}{df}\PY{o}{.}\PY{n}{columns}\PY{o}{.}\PY{n}{tolist}\PY{p}{(}\PY{p}{)}\PY{p}{)}
+
+\PY{c+c1}{\PYZsh{} Ensure \PYZsq{}date\PYZsq{} column exists and parse datetime}
+\PY{k}{if} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{date}\PY{l+s+s1}{\PYZsq{}} \PY{o+ow}{in} \PY{n}{df}\PY{o}{.}\PY{n}{columns}\PY{p}{:}
+    \PY{n}{df}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{date}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{=} \PY{n}{pd}\PY{o}{.}\PY{n}{to\PYZus{}datetime}\PY{p}{(}\PY{n}{df}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{date}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{,} \PY{n}{errors}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{coerce}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{k}{else}\PY{p}{:}
+    \PY{k}{raise} \PY{n+ne}{KeyError}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{❌ }\PY{l+s+s2}{\PYZsq{}}\PY{l+s+s2}{date}\PY{l+s+s2}{\PYZsq{}}\PY{l+s+s2}{ column not found after cleaning}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+
+\PY{n}{df} \PY{o}{=} \PY{n}{df}\PY{o}{.}\PY{n}{sort\PYZus{}values}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{date}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}\PY{o}{.}\PY{n}{reset\PYZus{}index}\PY{p}{(}\PY{n}{drop}\PY{o}{=}\PY{k+kc}{True}\PY{p}{)}
+\PY{n}{df} \PY{o}{=} \PY{n}{df}\PY{o}{.}\PY{n}{dropna}\PY{p}{(}\PY{n}{subset}\PY{o}{=}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{speech}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{)}
+\PY{n+nb}{print}\PY{p}{(}\PY{l+s+sa}{f}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{✅ Total speeches loaded: }\PY{l+s+si}{\PYZob{}}\PY{n+nb}{len}\PY{p}{(}\PY{n}{df}\PY{p}{)}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+
+\PY{c+c1}{\PYZsh{} ==============================================================}
+\PY{c+c1}{\PYZsh{}️⃣ CELL 3 — TEXT PREPROCESSING}
+\PY{c+c1}{\PYZsh{} ============================================================== }
+\PY{n}{stop\PYZus{}words} \PY{o}{=} \PY{n+nb}{set}\PY{p}{(}\PY{n}{stopwords}\PY{o}{.}\PY{n}{words}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{english}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}\PY{p}{)}\PY{o}{.}\PY{n}{union}\PY{p}{(}\PY{n}{ENGLISH\PYZus{}STOP\PYZus{}WORDS}\PY{p}{)}
+
+\PY{k}{def} \PY{n+nf}{clean\PYZus{}text}\PY{p}{(}\PY{n}{text}\PY{p}{)}\PY{p}{:}
+    \PY{n}{text} \PY{o}{=} \PY{n+nb}{str}\PY{p}{(}\PY{n}{text}\PY{p}{)}\PY{o}{.}\PY{n}{lower}\PY{p}{(}\PY{p}{)}
+    \PY{n}{text} \PY{o}{=} \PY{n}{re}\PY{o}{.}\PY{n}{sub}\PY{p}{(}\PY{l+s+sa}{r}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{[\PYZca{}a\PYZhy{}z}\PY{l+s+s1}{\PYZbs{}}\PY{l+s+s1}{s]}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{text}\PY{p}{)}
+    \PY{n}{tokens} \PY{o}{=} \PY{n}{nltk}\PY{o}{.}\PY{n}{word\PYZus{}tokenize}\PY{p}{(}\PY{n}{text}\PY{p}{)}
+    \PY{n}{tokens} \PY{o}{=} \PY{p}{[}\PY{n}{t} \PY{k}{for} \PY{n}{t} \PY{o+ow}{in} \PY{n}{tokens} \PY{k}{if} \PY{n}{t} \PY{o+ow}{not} \PY{o+ow}{in} \PY{n}{stop\PYZus{}words} \PY{o+ow}{and} \PY{n+nb}{len}\PY{p}{(}\PY{n}{t}\PY{p}{)} \PY{o}{\PYZgt{}} \PY{l+m+mi}{2}\PY{p}{]}
+    \PY{k}{return} \PY{n}{tokens}
+
+\PY{n}{df}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{tokens}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{=} \PY{n}{df}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{speech}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{.}\PY{n}{apply}\PY{p}{(}\PY{n}{clean\PYZus{}text}\PY{p}{)}
+\PY{n}{df} \PY{o}{=} \PY{n}{df}\PY{p}{[}\PY{n}{df}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{tokens}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{.}\PY{n}{str}\PY{o}{.}\PY{n}{len}\PY{p}{(}\PY{p}{)} \PY{o}{\PYZgt{}} \PY{l+m+mi}{10}\PY{p}{]}\PY{o}{.}\PY{n}{reset\PYZus{}index}\PY{p}{(}\PY{n}{drop}\PY{o}{=}\PY{k+kc}{True}\PY{p}{)}
+\PY{n+nb}{print}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Cleaned sample tokens:}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{n}{df}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{tokens}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{.}\PY{n}{iloc}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{[}\PY{p}{:}\PY{l+m+mi}{20}\PY{p}{]}\PY{p}{)}
+
+\PY{c+c1}{\PYZsh{} ==============================================================}
+\PY{c+c1}{\PYZsh{}️⃣ CELL 4 — CHUNKING SPEECHES}
+\PY{c+c1}{\PYZsh{} ============================================================== }
+\PY{n}{CHUNK\PYZus{}SIZE} \PY{o}{=} \PY{l+m+mi}{800}
+\PY{k}{def} \PY{n+nf}{chunk\PYZus{}tokens}\PY{p}{(}\PY{n}{tokens}\PY{p}{,} \PY{n}{chunk\PYZus{}size}\PY{o}{=}\PY{n}{CHUNK\PYZus{}SIZE}\PY{p}{)}\PY{p}{:}
+    \PY{k}{return} \PY{p}{[}\PY{n}{tokens}\PY{p}{[}\PY{n}{i}\PY{p}{:}\PY{n}{i}\PY{o}{+}\PY{n}{chunk\PYZus{}size}\PY{p}{]} \PY{k}{for} \PY{n}{i} \PY{o+ow}{in} \PY{n+nb}{range}\PY{p}{(}\PY{l+m+mi}{0}\PY{p}{,} \PY{n+nb}{len}\PY{p}{(}\PY{n}{tokens}\PY{p}{)}\PY{p}{,} \PY{n}{chunk\PYZus{}size}\PY{p}{)}\PY{p}{]}
+
+\PY{n}{chunks} \PY{o}{=} \PY{p}{[}\PY{p}{]}
+\PY{k}{for} \PY{n}{idx}\PY{p}{,} \PY{n}{row} \PY{o+ow}{in} \PY{n}{df}\PY{o}{.}\PY{n}{iterrows}\PY{p}{(}\PY{p}{)}\PY{p}{:}
+    \PY{n}{token\PYZus{}chunks} \PY{o}{=} \PY{n}{chunk\PYZus{}tokens}\PY{p}{(}\PY{n}{row}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{tokens}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{)}
+    \PY{k}{for} \PY{n}{j}\PY{p}{,} \PY{n}{ch} \PY{o+ow}{in} \PY{n+nb}{enumerate}\PY{p}{(}\PY{n}{token\PYZus{}chunks}\PY{p}{)}\PY{p}{:}
+        \PY{k}{if} \PY{n+nb}{len}\PY{p}{(}\PY{n}{ch}\PY{p}{)} \PY{o}{\PYZgt{}} \PY{l+m+mi}{20}\PY{p}{:}
+            \PY{n}{chunks}\PY{o}{.}\PY{n}{append}\PY{p}{(}\PY{p}{\PYZob{}}
+                \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{source\PYZus{}idx}\PY{l+s+s1}{\PYZsq{}}\PY{p}{:} \PY{n}{idx}\PY{p}{,}
+                \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{date}\PY{l+s+s1}{\PYZsq{}}\PY{p}{:} \PY{n}{row}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{date}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{,}
+                \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{chunk\PYZus{}id}\PY{l+s+s1}{\PYZsq{}}\PY{p}{:} \PY{n}{j}\PY{p}{,}
+                \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{tokens}\PY{l+s+s1}{\PYZsq{}}\PY{p}{:} \PY{n}{ch}
+            \PY{p}{\PYZcb{}}\PY{p}{)}
+
+\PY{n}{chunks\PYZus{}df} \PY{o}{=} \PY{n}{pd}\PY{o}{.}\PY{n}{DataFrame}\PY{p}{(}\PY{n}{chunks}\PY{p}{)}
+\PY{n+nb}{print}\PY{p}{(}\PY{l+s+sa}{f}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{✅ Total chunks after filtering: }\PY{l+s+si}{\PYZob{}}\PY{n+nb}{len}\PY{p}{(}\PY{n}{chunks\PYZus{}df}\PY{p}{)}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+
+\PY{c+c1}{\PYZsh{} ==============================================================}
+\PY{c+c1}{\PYZsh{}️⃣ CELL 5 — CREATE DICTIONARY AND CORPUS}
+\PY{c+c1}{\PYZsh{} ============================================================== }
+\PY{n}{dictionary} \PY{o}{=} \PY{n}{corpora}\PY{o}{.}\PY{n}{Dictionary}\PY{p}{(}\PY{n}{chunks\PYZus{}df}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{tokens}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{)}
+\PY{n}{dictionary}\PY{o}{.}\PY{n}{filter\PYZus{}extremes}\PY{p}{(}\PY{n}{no\PYZus{}below}\PY{o}{=}\PY{l+m+mi}{5}\PY{p}{,} \PY{n}{no\PYZus{}above}\PY{o}{=}\PY{l+m+mf}{0.5}\PY{p}{)}
+\PY{n}{corpus} \PY{o}{=} \PY{p}{[}\PY{n}{dictionary}\PY{o}{.}\PY{n}{doc2bow}\PY{p}{(}\PY{n}{text}\PY{p}{)} \PY{k}{for} \PY{n}{text} \PY{o+ow}{in} \PY{n}{chunks\PYZus{}df}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{tokens}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{]}
+
+\PY{c+c1}{\PYZsh{} ==============================================================}
+\PY{c+c1}{\PYZsh{}️⃣ CELL 6 — LDA TRAINING WITH COHERENCE SELECTION}
+\PY{c+c1}{\PYZsh{} ============================================================== }
+\PY{n}{best\PYZus{}coherence} \PY{o}{=} \PY{l+m+mi}{0}
+\PY{n}{best\PYZus{}lda} \PY{o}{=} \PY{k+kc}{None}
+\PY{n}{best\PYZus{}k} \PY{o}{=} \PY{l+m+mi}{0}
+
+\PY{k}{for} \PY{n}{k} \PY{o+ow}{in} \PY{n+nb}{range}\PY{p}{(}\PY{l+m+mi}{6}\PY{p}{,} \PY{l+m+mi}{10}\PY{p}{)}\PY{p}{:}
+    \PY{n}{lda} \PY{o}{=} \PY{n}{models}\PY{o}{.}\PY{n}{LdaModel}\PY{p}{(}\PY{n}{corpus}\PY{p}{,} \PY{n}{num\PYZus{}topics}\PY{o}{=}\PY{n}{k}\PY{p}{,} \PY{n}{id2word}\PY{o}{=}\PY{n}{dictionary}\PY{p}{,} \PY{n}{passes}\PY{o}{=}\PY{l+m+mi}{15}\PY{p}{,} \PY{n}{random\PYZus{}state}\PY{o}{=}\PY{l+m+mi}{42}\PY{p}{)}
+    \PY{n}{cm} \PY{o}{=} \PY{n}{CoherenceModel}\PY{p}{(}\PY{n}{model}\PY{o}{=}\PY{n}{lda}\PY{p}{,} \PY{n}{texts}\PY{o}{=}\PY{n}{chunks\PYZus{}df}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{tokens}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{,} \PY{n}{dictionary}\PY{o}{=}\PY{n}{dictionary}\PY{p}{,} \PY{n}{coherence}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{c\PYZus{}v}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+    \PY{n}{coherence} \PY{o}{=} \PY{n}{cm}\PY{o}{.}\PY{n}{get\PYZus{}coherence}\PY{p}{(}\PY{p}{)}
+    \PY{n+nb}{print}\PY{p}{(}\PY{l+s+sa}{f}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{k=}\PY{l+s+si}{\PYZob{}}\PY{n}{k}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{, coherence=}\PY{l+s+si}{\PYZob{}}\PY{n}{coherence}\PY{l+s+si}{:}\PY{l+s+s2}{.4f}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+    \PY{k}{if} \PY{n}{coherence} \PY{o}{\PYZgt{}} \PY{n}{best\PYZus{}coherence}\PY{p}{:}
+        \PY{n}{best\PYZus{}coherence} \PY{o}{=} \PY{n}{coherence}
+        \PY{n}{best\PYZus{}lda} \PY{o}{=} \PY{n}{lda}
+        \PY{n}{best\PYZus{}k} \PY{o}{=} \PY{n}{k}
+
+\PY{n+nb}{print}\PY{p}{(}\PY{l+s+sa}{f}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{✅ Selected best\PYZus{}k = }\PY{l+s+si}{\PYZob{}}\PY{n}{best\PYZus{}k}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{ with coherence = }\PY{l+s+si}{\PYZob{}}\PY{n}{best\PYZus{}coherence}\PY{l+s+si}{:}\PY{l+s+s2}{.4f}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\PY{n}{lda\PYZus{}model} \PY{o}{=} \PY{n}{best\PYZus{}lda}
+
+\PY{c+c1}{\PYZsh{} ==============================================================}
+\PY{c+c1}{\PYZsh{}️⃣ CELL 7 — ASSIGN DOMINANT TOPIC TO EACH CHUNK}
+\PY{c+c1}{\PYZsh{} ============================================================== }
+\PY{n}{chunk\PYZus{}topics} \PY{o}{=} \PY{p}{[}\PY{p}{]}
+\PY{k}{for} \PY{n}{i}\PY{p}{,} \PY{n}{bow} \PY{o+ow}{in} \PY{n+nb}{enumerate}\PY{p}{(}\PY{n}{corpus}\PY{p}{)}\PY{p}{:}
+    \PY{n}{topic\PYZus{}probs} \PY{o}{=} \PY{n}{lda\PYZus{}model}\PY{o}{.}\PY{n}{get\PYZus{}document\PYZus{}topics}\PY{p}{(}\PY{n}{bow}\PY{p}{,} \PY{n}{minimum\PYZus{}probability}\PY{o}{=}\PY{l+m+mi}{0}\PY{p}{)}
+    \PY{n}{probs} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{array}\PY{p}{(}\PY{p}{[}\PY{n}{p} \PY{k}{for} \PY{n}{\PYZus{}}\PY{p}{,} \PY{n}{p} \PY{o+ow}{in} \PY{n}{topic\PYZus{}probs}\PY{p}{]}\PY{p}{)}
+    \PY{n}{dominant} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{argmax}\PY{p}{(}\PY{n}{probs}\PY{p}{)}
+    \PY{n}{chunk\PYZus{}topics}\PY{o}{.}\PY{n}{append}\PY{p}{(}\PY{p}{\PYZob{}}
+        \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{chunk\PYZus{}id}\PY{l+s+s1}{\PYZsq{}}\PY{p}{:} \PY{n}{i}\PY{p}{,}
+        \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{source\PYZus{}idx}\PY{l+s+s1}{\PYZsq{}}\PY{p}{:} \PY{n}{chunks\PYZus{}df}\PY{o}{.}\PY{n}{loc}\PY{p}{[}\PY{n}{i}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{source\PYZus{}idx}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{,}
+        \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{date}\PY{l+s+s1}{\PYZsq{}}\PY{p}{:} \PY{n}{chunks\PYZus{}df}\PY{o}{.}\PY{n}{loc}\PY{p}{[}\PY{n}{i}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{date}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{,}
+        \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{dominant\PYZus{}topic}\PY{l+s+s1}{\PYZsq{}}\PY{p}{:} \PY{n}{dominant}\PY{p}{,}
+        \PY{o}{*}\PY{o}{*}\PY{p}{\PYZob{}}\PY{l+s+sa}{f}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{topic\PYZus{}}\PY{l+s+si}{\PYZob{}}\PY{n}{t}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s1}{\PYZsq{}}\PY{p}{:} \PY{n}{probs}\PY{p}{[}\PY{n}{t}\PY{p}{]} \PY{k}{for} \PY{n}{t} \PY{o+ow}{in} \PY{n+nb}{range}\PY{p}{(}\PY{n}{best\PYZus{}k}\PY{p}{)}\PY{p}{\PYZcb{}}
+    \PY{p}{\PYZcb{}}\PY{p}{)}
+
+\PY{n}{chunk\PYZus{}topics\PYZus{}df} \PY{o}{=} \PY{n}{pd}\PY{o}{.}\PY{n}{DataFrame}\PY{p}{(}\PY{n}{chunk\PYZus{}topics}\PY{p}{)}
+\PY{n}{chunks\PYZus{}df} \PY{o}{=} \PY{n}{chunks\PYZus{}df}\PY{o}{.}\PY{n}{merge}\PY{p}{(}\PY{n}{chunk\PYZus{}topics\PYZus{}df}\PY{p}{,} \PY{n}{on}\PY{o}{=}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{chunk\PYZus{}id}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{source\PYZus{}idx}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{date}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{)}
+\PY{n+nb}{print}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Sample chunk\PYZhy{}topic assignments:}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\PY{n+nb}{print}\PY{p}{(}\PY{n}{chunks\PYZus{}df}\PY{o}{.}\PY{n}{head}\PY{p}{(}\PY{l+m+mi}{3}\PY{p}{)}\PY{p}{)}
+
+\PY{c+c1}{\PYZsh{} ==============================================================}
+\PY{c+c1}{\PYZsh{}️⃣ CELL 8 — SOFT TRANSITION MATRIX WITH DOMINANCE ADJUSTMENT}
+\PY{c+c1}{\PYZsh{} ============================================================== }
+\PY{n}{K} \PY{o}{=} \PY{n}{best\PYZus{}k}
+\PY{n}{soft\PYZus{}counts} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{zeros}\PY{p}{(}\PY{p}{(}\PY{n}{K}\PY{p}{,} \PY{n}{K}\PY{p}{)}\PY{p}{)}
+\PY{n}{topic\PYZus{}cols} \PY{o}{=} \PY{p}{[}\PY{l+s+sa}{f}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{topic\PYZus{}}\PY{l+s+si}{\PYZob{}}\PY{n}{t}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s1}{\PYZsq{}} \PY{k}{for} \PY{n}{t} \PY{o+ow}{in} \PY{n+nb}{range}\PY{p}{(}\PY{n}{K}\PY{p}{)}\PY{p}{]}
+
+\PY{c+c1}{\PYZsh{} Downweight extremely dominant topic chunks to avoid skew}
+\PY{n}{MAX\PYZus{}DOM\PYZus{}PROB} \PY{o}{=} \PY{l+m+mf}{0.95}
+
+\PY{n}{chunks\PYZus{}df} \PY{o}{=} \PY{n}{chunks\PYZus{}df}\PY{o}{.}\PY{n}{sort\PYZus{}values}\PY{p}{(}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{date}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{source\PYZus{}idx}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{chunk\PYZus{}id}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{)}\PY{o}{.}\PY{n}{reset\PYZus{}index}\PY{p}{(}\PY{n}{drop}\PY{o}{=}\PY{k+kc}{True}\PY{p}{)}
+\PY{k}{for} \PY{n}{i} \PY{o+ow}{in} \PY{n+nb}{range}\PY{p}{(}\PY{n+nb}{len}\PY{p}{(}\PY{n}{chunks\PYZus{}df}\PY{p}{)}\PY{o}{\PYZhy{}}\PY{l+m+mi}{1}\PY{p}{)}\PY{p}{:}
+    \PY{n}{p\PYZus{}t} \PY{o}{=} \PY{n}{chunks\PYZus{}df}\PY{o}{.}\PY{n}{loc}\PY{p}{[}\PY{n}{i}\PY{p}{,} \PY{n}{topic\PYZus{}cols}\PY{p}{]}\PY{o}{.}\PY{n}{values}\PY{o}{.}\PY{n}{astype}\PY{p}{(}\PY{n+nb}{float}\PY{p}{)}
+    \PY{n}{p\PYZus{}t1} \PY{o}{=} \PY{n}{chunks\PYZus{}df}\PY{o}{.}\PY{n}{loc}\PY{p}{[}\PY{n}{i}\PY{o}{+}\PY{l+m+mi}{1}\PY{p}{,} \PY{n}{topic\PYZus{}cols}\PY{p}{]}\PY{o}{.}\PY{n}{values}\PY{o}{.}\PY{n}{astype}\PY{p}{(}\PY{n+nb}{float}\PY{p}{)}
+    \PY{c+c1}{\PYZsh{} Scale probabilities if maximum \PYZgt{} threshold}
+    \PY{n}{scale} \PY{o}{=} \PY{n+nb}{min}\PY{p}{(}\PY{l+m+mi}{1}\PY{p}{,} \PY{n}{MAX\PYZus{}DOM\PYZus{}PROB} \PY{o}{/} \PY{n+nb}{max}\PY{p}{(}\PY{n}{p\PYZus{}t}\PY{o}{.}\PY{n}{max}\PY{p}{(}\PY{p}{)}\PY{p}{,} \PY{l+m+mf}{1e\PYZhy{}6}\PY{p}{)}\PY{p}{)}
+    \PY{n}{soft\PYZus{}counts} \PY{o}{+}\PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{outer}\PY{p}{(}\PY{n}{p\PYZus{}t}\PY{o}{*}\PY{n}{scale}\PY{p}{,} \PY{n}{p\PYZus{}t1}\PY{p}{)}
+
+\PY{c+c1}{\PYZsh{} Add small smoothing}
+\PY{n}{alpha} \PY{o}{=} \PY{l+m+mf}{0.001}
+\PY{n}{soft\PYZus{}counts} \PY{o}{+}\PY{o}{=} \PY{n}{alpha}
+\PY{n}{soft\PYZus{}mat} \PY{o}{=} \PY{n}{soft\PYZus{}counts} \PY{o}{/} \PY{n}{soft\PYZus{}counts}\PY{o}{.}\PY{n}{sum}\PY{p}{(}\PY{n}{axis}\PY{o}{=}\PY{l+m+mi}{1}\PY{p}{,} \PY{n}{keepdims}\PY{o}{=}\PY{k+kc}{True}\PY{p}{)}
+
+\PY{n+nb}{print}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Soft transition matrix (first 5x5):}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\PY{n+nb}{print}\PY{p}{(}\PY{n}{np}\PY{o}{.}\PY{n}{round}\PY{p}{(}\PY{n}{soft\PYZus{}mat}\PY{p}{[}\PY{p}{:}\PY{l+m+mi}{5}\PY{p}{,} \PY{p}{:}\PY{l+m+mi}{5}\PY{p}{]}\PY{p}{,} \PY{l+m+mi}{4}\PY{p}{)}\PY{p}{)}
+
+\PY{c+c1}{\PYZsh{} ==============================================================}
+\PY{c+c1}{\PYZsh{}️⃣ CELL 9 — MARKOV CHAIN ANALYSIS}
+\PY{c+c1}{\PYZsh{} ============================================================== }
+\PY{n}{eigvals}\PY{p}{,} \PY{n}{eigvecs} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{linalg}\PY{o}{.}\PY{n}{eig}\PY{p}{(}\PY{n}{soft\PYZus{}mat}\PY{o}{.}\PY{n}{T}\PY{p}{)}
+\PY{n}{idx} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{argmin}\PY{p}{(}\PY{n}{np}\PY{o}{.}\PY{n}{abs}\PY{p}{(}\PY{n}{eigvals} \PY{o}{\PYZhy{}} \PY{l+m+mi}{1}\PY{p}{)}\PY{p}{)}
+\PY{n}{stationary} \PY{o}{=} \PY{n}{eigvecs}\PY{p}{[}\PY{p}{:}\PY{p}{,} \PY{n}{idx}\PY{p}{]}\PY{o}{.}\PY{n}{real}
+\PY{n}{stationary} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{abs}\PY{p}{(}\PY{n}{stationary}\PY{p}{)}
+\PY{n}{stationary} \PY{o}{/}\PY{o}{=} \PY{n}{stationary}\PY{o}{.}\PY{n}{sum}\PY{p}{(}\PY{p}{)}
+\PY{n}{expected\PYZus{}return} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{where}\PY{p}{(}\PY{n}{stationary}\PY{o}{\PYZgt{}}\PY{l+m+mi}{0}\PY{p}{,} \PY{l+m+mi}{1}\PY{o}{/}\PY{n}{stationary}\PY{p}{,} \PY{n}{np}\PY{o}{.}\PY{n}{nan}\PY{p}{)}
+
+\PY{n+nb}{print}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Stationary distribution:}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{n}{np}\PY{o}{.}\PY{n}{round}\PY{p}{(}\PY{n}{stationary}\PY{p}{,}\PY{l+m+mi}{4}\PY{p}{)}\PY{p}{)}
+\PY{n+nb}{print}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Expected return times:}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{n}{np}\PY{o}{.}\PY{n}{round}\PY{p}{(}\PY{n}{expected\PYZus{}return}\PY{p}{,}\PY{l+m+mi}{1}\PY{p}{)}\PY{p}{)}
+
+\PY{c+c1}{\PYZsh{} ==============================================================}
+\PY{c+c1}{\PYZsh{}️⃣ CELL 10 — SPEECH\PYZhy{}LEVEL AGGREGATION}
+\PY{c+c1}{\PYZsh{} ============================================================== }
+\PY{n}{speech\PYZus{}level} \PY{o}{=} \PY{n}{chunks\PYZus{}df}\PY{o}{.}\PY{n}{groupby}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{source\PYZus{}idx}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}\PY{o}{.}\PY{n}{agg}\PY{p}{(}\PY{p}{\PYZob{}}\PY{o}{*}\PY{o}{*}\PY{p}{\PYZob{}}\PY{l+s+sa}{f}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{topic\PYZus{}}\PY{l+s+si}{\PYZob{}}\PY{n}{t}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s1}{\PYZsq{}}\PY{p}{:}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{mean}\PY{l+s+s1}{\PYZsq{}} \PY{k}{for} \PY{n}{t} \PY{o+ow}{in} \PY{n+nb}{range}\PY{p}{(}\PY{n}{K}\PY{p}{)}\PY{p}{\PYZcb{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{date}\PY{l+s+s1}{\PYZsq{}}\PY{p}{:}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{first}\PY{l+s+s1}{\PYZsq{}}\PY{p}{\PYZcb{}}\PY{p}{)}\PY{o}{.}\PY{n}{reset\PYZus{}index}\PY{p}{(}\PY{p}{)}
+\PY{n}{speech\PYZus{}level}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{dominant\PYZus{}topic}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{=} \PY{p}{(}
+\PY{n}{speech\PYZus{}level}\PY{p}{[}\PY{p}{[}\PY{l+s+sa}{f}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{topic\PYZus{}}\PY{l+s+si}{\PYZob{}}\PY{n}{t}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s1}{\PYZsq{}} \PY{k}{for} \PY{n}{t} \PY{o+ow}{in} \PY{n+nb}{range}\PY{p}{(}\PY{n}{K}\PY{p}{)}\PY{p}{]}\PY{p}{]}
+    \PY{o}{.}\PY{n}{idxmax}\PY{p}{(}\PY{n}{axis}\PY{o}{=}\PY{l+m+mi}{1}\PY{p}{)}
+    \PY{o}{.}\PY{n}{str}\PY{o}{.}\PY{n}{extract}\PY{p}{(}\PY{l+s+sa}{r}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{(}\PY{l+s+s1}{\PYZbs{}}\PY{l+s+s1}{d+)}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+    \PY{o}{.}\PY{n}{astype}\PY{p}{(}\PY{n+nb}{int}\PY{p}{)}
+\PY{p}{)}
+\PY{n+nb}{print}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Speech\PYZhy{}level topic summary:}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\PY{n+nb}{print}\PY{p}{(}\PY{n}{speech\PYZus{}level}\PY{o}{.}\PY{n}{head}\PY{p}{(}\PY{p}{)}\PY{p}{)}
+
+\PY{c+c1}{\PYZsh{} ==============================================================}
+\PY{c+c1}{\PYZsh{}️⃣ CELL 11 — VISUALIZATIONS}
+\PY{c+c1}{\PYZsh{} ============================================================== }
+\PY{n}{plt}\PY{o}{.}\PY{n}{figure}\PY{p}{(}\PY{n}{figsize}\PY{o}{=}\PY{p}{(}\PY{l+m+mi}{10}\PY{p}{,}\PY{l+m+mi}{8}\PY{p}{)}\PY{p}{)}
+\PY{n}{sns}\PY{o}{.}\PY{n}{heatmap}\PY{p}{(}\PY{n}{soft\PYZus{}mat}\PY{p}{,} \PY{n}{annot}\PY{o}{=}\PY{k+kc}{False}\PY{p}{,} \PY{n}{cmap}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Blues}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{title}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Chunk\PYZhy{}level Topic Transition Matrix}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{xlabel}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{To Topic}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{ylabel}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{From Topic}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{show}\PY{p}{(}\PY{p}{)}
+
+\PY{n}{plt}\PY{o}{.}\PY{n}{figure}\PY{p}{(}\PY{n}{figsize}\PY{o}{=}\PY{p}{(}\PY{l+m+mi}{8}\PY{p}{,}\PY{l+m+mi}{4}\PY{p}{)}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{bar}\PY{p}{(}\PY{n+nb}{range}\PY{p}{(}\PY{n}{K}\PY{p}{)}\PY{p}{,} \PY{n}{stationary}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{title}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Stationary Distribution of Topics}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{xlabel}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Topic ID}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{ylabel}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Long\PYZhy{}term Probability}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{show}\PY{p}{(}\PY{p}{)}
+
+\PY{c+c1}{\PYZsh{} ==============================================================}
+\PY{c+c1}{\PYZsh{}️⃣ CELL 12 — OUTPUT DISPLAY}
+\PY{c+c1}{\PYZsh{} ============================================================== }
+\PY{n+nb}{print}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Topic keywords:}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\PY{n}{topic\PYZus{}words} \PY{o}{=} \PY{p}{\PYZob{}}\PY{l+s+sa}{f}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Topic\PYZus{}}\PY{l+s+si}{\PYZob{}}\PY{n}{i}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{\PYZdq{}}\PY{p}{:}\PY{p}{[}\PY{n}{w} \PY{k}{for} \PY{n}{w}\PY{p}{,}\PY{n}{\PYZus{}} \PY{o+ow}{in} \PY{n}{lda\PYZus{}model}\PY{o}{.}\PY{n}{show\PYZus{}topic}\PY{p}{(}\PY{n}{i}\PY{p}{,} \PY{n}{topn}\PY{o}{=}\PY{l+m+mi}{15}\PY{p}{)}\PY{p}{]} \PY{k}{for} \PY{n}{i} \PY{o+ow}{in} \PY{n+nb}{range}\PY{p}{(}\PY{n}{K}\PY{p}{)}\PY{p}{\PYZcb{}}
+\PY{k}{for} \PY{n}{k}\PY{p}{,} \PY{n}{words} \PY{o+ow}{in} \PY{n}{topic\PYZus{}words}\PY{o}{.}\PY{n}{items}\PY{p}{(}\PY{p}{)}\PY{p}{:}
+    \PY{n+nb}{print}\PY{p}{(}\PY{n}{k}\PY{p}{,} \PY{n}{words}\PY{p}{)}
+
+\PY{n+nb}{print}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+se}{\PYZbs{}n}\PY{l+s+s2}{Speech\PYZhy{}level topics:}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\PY{n+nb}{print}\PY{p}{(}\PY{n}{speech\PYZus{}level}\PY{o}{.}\PY{n}{head}\PY{p}{(}\PY{p}{)}\PY{p}{)}
+
+\PY{n+nb}{print}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+se}{\PYZbs{}n}\PY{l+s+s2}{Chunk\PYZhy{}level topics (sample):}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\PY{n+nb}{print}\PY{p}{(}\PY{n}{chunks\PYZus{}df}\PY{o}{.}\PY{n}{head}\PY{p}{(}\PY{p}{)}\PY{p}{)}
+
+\PY{n+nb}{print}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+se}{\PYZbs{}n}\PY{l+s+s2}{Soft transition matrix (first 5x5):}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\PY{n+nb}{print}\PY{p}{(}\PY{n}{np}\PY{o}{.}\PY{n}{round}\PY{p}{(}\PY{n}{soft\PYZus{}mat}\PY{p}{[}\PY{p}{:}\PY{l+m+mi}{5}\PY{p}{,}\PY{p}{:}\PY{l+m+mi}{5}\PY{p}{]}\PY{p}{,}\PY{l+m+mi}{4}\PY{p}{)}\PY{p}{)}
+
+\PY{n+nb}{print}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+se}{\PYZbs{}n}\PY{l+s+s2}{Stationary distribution:}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\PY{n+nb}{print}\PY{p}{(}\PY{n}{np}\PY{o}{.}\PY{n}{round}\PY{p}{(}\PY{n}{stationary}\PY{p}{,}\PY{l+m+mi}{4}\PY{p}{)}\PY{p}{)}
+
+\PY{n+nb}{print}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+se}{\PYZbs{}n}\PY{l+s+s2}{Expected return times:}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\PY{n+nb}{print}\PY{p}{(}\PY{n}{np}\PY{o}{.}\PY{n}{round}\PY{p}{(}\PY{n}{expected\PYZus{}return}\PY{p}{,}\PY{l+m+mi}{1}\PY{p}{)}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+[nltk\_data] Downloading package punkt to C:\textbackslash{}Users\textbackslash{}Adinath
+[nltk\_data]     Nare\textbackslash{}AppData\textbackslash{}Roaming\textbackslash{}nltk\_data{\ldots}
+[nltk\_data]   Package punkt is already up-to-date!
+[nltk\_data] Downloading package stopwords to C:\textbackslash{}Users\textbackslash{}Adinath
+[nltk\_data]     Nare\textbackslash{}AppData\textbackslash{}Roaming\textbackslash{}nltk\_data{\ldots}
+[nltk\_data]   Package stopwords is already up-to-date!
+    \end{Verbatim}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+Standardized columns: ['episode\_no.', 'date', 'title', 'speech']
+✅ Total speeches loaded: 126
+Cleaned sample tokens: ['dear', 'countrymen', 'today', 'holy', 'festival',
+'vijay', 'dashami', 'heartiest', 'greetings', 'occasion', 'vijay', 'dashami',
+'medium', 'radio', 'like', 'share', 'heartfelt', 'thoughts', 'today', 'hope']
+✅ Total chunks after filtering: 320
+k=6, coherence=0.3536
+k=7, coherence=0.3492
+k=8, coherence=0.3327
+k=9, coherence=0.3353
+✅ Selected best\_k = 6 with coherence = 0.3536
+Sample chunk-topic assignments:
+   source\_idx       date  chunk\_id  \textbackslash{}
+0           0 2014-10-03         0
+1           1 2014-11-02         1
+
+                                              tokens  dominant\_topic  \textbackslash{}
+0  [dear, countrymen, today, holy, festival, vija{\ldots}               3
+1  [asked, send, suggestions, facebook, twitter, {\ldots}               3
+
+    topic\_0   topic\_1   topic\_2   topic\_3   topic\_4   topic\_5
+0  0.000280  0.025450  0.034273  0.911770  0.000279  0.027948
+1  0.000294  0.000293  0.000293  0.998531  0.000293  0.000294
+Soft transition matrix (first 5x5):
+[[0.1593 0.1593 0.1593 0.2037 0.1593]
+ [0.032  0.032  0.032  0.8398 0.032 ]
+ [0.0251 0.0251 0.0251 0.8746 0.0251]
+ [0.0014 0.0014 0.0014 0.9931 0.0014]
+ [0.1593 0.1593 0.1593 0.2037 0.1593]]
+Stationary distribution: [0.0023 0.0023 0.0023 0.9885 0.0023 0.0023]
+Expected return times: [435.4 435.5 435.5   1.  435.5 435.4]
+Speech-level topic summary:
+   source\_idx   topic\_0   topic\_1   topic\_2   topic\_3   topic\_4   topic\_5  \textbackslash{}
+0           0  0.000280  0.025450  0.034273  0.911770  0.000279  0.027948
+1           1  0.000294  0.000293  0.000293  0.998531  0.000293  0.000294
+
+        date  dominant\_topic
+0 2014-10-03               3
+1 2014-11-02               3
+    \end{Verbatim}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_2_2.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_2_3.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{Verbatim}[commandchars=\\\{\}]
+Topic keywords:
+Topic\_0 ['yoga', 'sports', 'games', 'space', 'players', 'team', 'students',
+'national', 'success', 'related', 'indias', 'children', 'field', 'language',
+'medal']
+Topic\_1 ['freedom', 'service', 'times', 'unity', 'farmers', 'anniversary',
+'birth', 'indias', 'corona', 'spirit', 'making', 'guru', 'technology', 'gandhi',
+'toys']
+Topic\_2 ['sir', 'modi', 'yes', 'corona', 'thank', 'minister', 'prime', 'water',
+'children', 'tell', 'village', 'home', 'mother', 'working', 'vaccine']
+Topic\_3 ['farmers', 'things', 'poor', 'nation', 'say', 'need', 'exams', 'dont',
+'suggestions', 'students', 'cleanliness', 'experience', 'think', 'money',
+'citizens']
+Topic\_4 ['sir', 'prime', 'minister', 'yes', 'sports', 'madan', 'tell', 'organ',
+'doctor', 'donation', 'tamil', 'experience', 'bharat', 'thank', 'modi']
+Topic\_5 ['water', 'campaign', 'women', 'cleanliness', 'village', 'festival',
+'festivals', 'children', 'local', 'river', 'effort', 'special', 'culture',
+'related', 'waste']
+
+Speech-level topics:
+   source\_idx   topic\_0   topic\_1   topic\_2   topic\_3   topic\_4   topic\_5  \textbackslash{}
+0           0  0.000280  0.025450  0.034273  0.911770  0.000279  0.027948
+1           1  0.000294  0.000293  0.000293  0.998531  0.000293  0.000294
+
+        date  dominant\_topic
+0 2014-10-03               3
+1 2014-11-02               3
+
+Chunk-level topics (sample):
+   source\_idx       date  chunk\_id  \textbackslash{}
+0           0 2014-10-03         0
+1           1 2014-11-02         1
+
+                                              tokens  dominant\_topic  \textbackslash{}
+0  [dear, countrymen, today, holy, festival, vija{\ldots}               3
+1  [asked, send, suggestions, facebook, twitter, {\ldots}               3
+
+    topic\_0   topic\_1   topic\_2   topic\_3   topic\_4   topic\_5
+0  0.000280  0.025450  0.034273  0.911770  0.000279  0.027948
+1  0.000294  0.000293  0.000293  0.998531  0.000293  0.000294
+
+Soft transition matrix (first 5x5):
+[[0.1593 0.1593 0.1593 0.2037 0.1593]
+ [0.032  0.032  0.032  0.8398 0.032 ]
+ [0.0251 0.0251 0.0251 0.8746 0.0251]
+ [0.0014 0.0014 0.0014 0.9931 0.0014]
+ [0.1593 0.1593 0.1593 0.2037 0.1593]]
+
+Stationary distribution:
+[0.0023 0.0023 0.0023 0.9885 0.0023 0.0023]
+
+Expected return times:
+[435.4 435.5 435.5   1.  435.5 435.4]
+    \end{Verbatim}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{2}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{c+c1}{\PYZsh{} ==============================================================}
+\PY{c+c1}{\PYZsh{}️⃣ STEP 0: Topic Labels (Updated \PYZam{} Accurate)}
+\PY{c+c1}{\PYZsh{} ==============================================================}
+\PY{n}{topic\PYZus{}labels} \PY{o}{=} \PY{p}{\PYZob{}}
+    \PY{l+m+mi}{0}\PY{p}{:} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Sports / Education / Youth}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}
+    \PY{l+m+mi}{1}\PY{p}{:} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Unity / Patriotism / Social Service}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}
+    \PY{l+m+mi}{2}\PY{p}{:} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Leadership / Health / Communication}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}
+    \PY{l+m+mi}{3}\PY{p}{:} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Education / Farmers / Citizens Issues}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}
+    \PY{l+m+mi}{4}\PY{p}{:} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Healthcare / Organ Donation / Awareness}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}
+    \PY{l+m+mi}{5}\PY{p}{:} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Women Empowerment / Cleanliness / Culture}\PY{l+s+s1}{\PYZsq{}}
+\PY{p}{\PYZcb{}}
+
+\PY{c+c1}{\PYZsh{} Map dominant topic to readable label}
+\PY{n}{chunks\PYZus{}df}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{dominant\PYZus{}topic\PYZus{}label}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{=} \PY{n}{chunks\PYZus{}df}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{dominant\PYZus{}topic}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{.}\PY{n}{map}\PY{p}{(}\PY{n}{topic\PYZus{}labels}\PY{p}{)}
+\PY{n}{speech\PYZus{}level}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{dominant\PYZus{}topic\PYZus{}label}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{=} \PY{n}{speech\PYZus{}level}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{dominant\PYZus{}topic}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{.}\PY{n}{map}\PY{p}{(}\PY{n}{topic\PYZus{}labels}\PY{p}{)}
+
+\PY{c+c1}{\PYZsh{} ==============================================================}
+\PY{c+c1}{\PYZsh{}️⃣ STEP 1: Enhanced Chunk\PYZhy{}level Transition Matrix}
+\PY{c+c1}{\PYZsh{} ==============================================================}
+\PY{k+kn}{import} \PY{n+nn}{matplotlib}\PY{n+nn}{.}\PY{n+nn}{pyplot} \PY{k}{as} \PY{n+nn}{plt}
+\PY{k+kn}{import} \PY{n+nn}{seaborn} \PY{k}{as} \PY{n+nn}{sns}
+
+\PY{n}{plt}\PY{o}{.}\PY{n}{figure}\PY{p}{(}\PY{n}{figsize}\PY{o}{=}\PY{p}{(}\PY{l+m+mi}{10}\PY{p}{,}\PY{l+m+mi}{8}\PY{p}{)}\PY{p}{)}
+\PY{n}{sns}\PY{o}{.}\PY{n}{heatmap}\PY{p}{(}
+    \PY{n}{soft\PYZus{}mat}\PY{p}{,} \PY{n}{annot}\PY{o}{=}\PY{k+kc}{True}\PY{p}{,} \PY{n}{fmt}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{.2f}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{n}{cmap}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{YlGnBu}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}
+    \PY{n}{xticklabels}\PY{o}{=}\PY{p}{[}\PY{n}{topic\PYZus{}labels}\PY{p}{[}\PY{n}{i}\PY{p}{]} \PY{k}{for} \PY{n}{i} \PY{o+ow}{in} \PY{n+nb}{range}\PY{p}{(}\PY{n}{K}\PY{p}{)}\PY{p}{]}\PY{p}{,}
+    \PY{n}{yticklabels}\PY{o}{=}\PY{p}{[}\PY{n}{topic\PYZus{}labels}\PY{p}{[}\PY{n}{i}\PY{p}{]} \PY{k}{for} \PY{n}{i} \PY{o+ow}{in} \PY{n+nb}{range}\PY{p}{(}\PY{n}{K}\PY{p}{)}\PY{p}{]}
+\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{title}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Chunk\PYZhy{}level Topic Transition Matrix}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{n}{fontsize}\PY{o}{=}\PY{l+m+mi}{16}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{xlabel}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Next Topic}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{n}{fontsize}\PY{o}{=}\PY{l+m+mi}{12}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{ylabel}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Current Topic}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{n}{fontsize}\PY{o}{=}\PY{l+m+mi}{12}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{xticks}\PY{p}{(}\PY{n}{rotation}\PY{o}{=}\PY{l+m+mi}{45}\PY{p}{,} \PY{n}{ha}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{right}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{yticks}\PY{p}{(}\PY{n}{rotation}\PY{o}{=}\PY{l+m+mi}{0}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{tight\PYZus{}layout}\PY{p}{(}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{show}\PY{p}{(}\PY{p}{)}
+
+\PY{c+c1}{\PYZsh{} ==============================================================}
+\PY{c+c1}{\PYZsh{}️⃣ STEP 2: Enhanced Stationary Distribution}
+\PY{c+c1}{\PYZsh{} ==============================================================}
+\PY{n}{plt}\PY{o}{.}\PY{n}{figure}\PY{p}{(}\PY{n}{figsize}\PY{o}{=}\PY{p}{(}\PY{l+m+mi}{10}\PY{p}{,}\PY{l+m+mi}{5}\PY{p}{)}\PY{p}{)}
+\PY{n}{colors} \PY{o}{=} \PY{n}{sns}\PY{o}{.}\PY{n}{color\PYZus{}palette}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Set2}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{n}{K}\PY{p}{)}
+\PY{n}{sns}\PY{o}{.}\PY{n}{barplot}\PY{p}{(}\PY{n}{x}\PY{o}{=}\PY{p}{[}\PY{n}{topic\PYZus{}labels}\PY{p}{[}\PY{n}{i}\PY{p}{]} \PY{k}{for} \PY{n}{i} \PY{o+ow}{in} \PY{n+nb}{range}\PY{p}{(}\PY{n}{K}\PY{p}{)}\PY{p}{]}\PY{p}{,} \PY{n}{y}\PY{o}{=}\PY{n}{stationary}\PY{p}{,} \PY{n}{palette}\PY{o}{=}\PY{n}{colors}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{title}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Stationary Distribution of Topics}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{n}{fontsize}\PY{o}{=}\PY{l+m+mi}{16}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{ylabel}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Long\PYZhy{}term Probability}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{n}{fontsize}\PY{o}{=}\PY{l+m+mi}{12}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{xlabel}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Topic}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{n}{fontsize}\PY{o}{=}\PY{l+m+mi}{12}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{xticks}\PY{p}{(}\PY{n}{rotation}\PY{o}{=}\PY{l+m+mi}{45}\PY{p}{,} \PY{n}{ha}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{right}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+
+\PY{c+c1}{\PYZsh{} Annotate bars with probability values}
+\PY{k}{for} \PY{n}{i}\PY{p}{,} \PY{n}{v} \PY{o+ow}{in} \PY{n+nb}{enumerate}\PY{p}{(}\PY{n}{stationary}\PY{p}{)}\PY{p}{:}
+    \PY{n}{plt}\PY{o}{.}\PY{n}{text}\PY{p}{(}\PY{n}{i}\PY{p}{,} \PY{n}{v} \PY{o}{+} \PY{l+m+mf}{0.005}\PY{p}{,} \PY{l+s+sa}{f}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+si}{\PYZob{}}\PY{n}{v}\PY{l+s+si}{:}\PY{l+s+s2}{.3f}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{n}{ha}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{center}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{fontsize}\PY{o}{=}\PY{l+m+mi}{10}\PY{p}{)}
+
+\PY{n}{plt}\PY{o}{.}\PY{n}{tight\PYZus{}layout}\PY{p}{(}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{show}\PY{p}{(}\PY{p}{)}
+
+\PY{c+c1}{\PYZsh{} ==============================================================}
+\PY{c+c1}{\PYZsh{}️⃣ STEP 3: Temporal Topic Trend Across Episodes}
+\PY{c+c1}{\PYZsh{} ==============================================================}
+\PY{n}{speech\PYZus{}level}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{episode\PYZus{}order}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{=} \PY{n+nb}{range}\PY{p}{(}\PY{n+nb}{len}\PY{p}{(}\PY{n}{speech\PYZus{}level}\PY{p}{)}\PY{p}{)}
+\PY{n}{topic\PYZus{}columns} \PY{o}{=} \PY{p}{[}\PY{l+s+sa}{f}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{topic\PYZus{}}\PY{l+s+si}{\PYZob{}}\PY{n}{i}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s1}{\PYZsq{}} \PY{k}{for} \PY{n}{i} \PY{o+ow}{in} \PY{n+nb}{range}\PY{p}{(}\PY{n}{K}\PY{p}{)}\PY{p}{]}
+
+\PY{n}{plt}\PY{o}{.}\PY{n}{figure}\PY{p}{(}\PY{n}{figsize}\PY{o}{=}\PY{p}{(}\PY{l+m+mi}{14}\PY{p}{,}\PY{l+m+mi}{6}\PY{p}{)}\PY{p}{)}
+\PY{k}{for} \PY{n}{i}\PY{p}{,} \PY{n}{col} \PY{o+ow}{in} \PY{n+nb}{enumerate}\PY{p}{(}\PY{n}{topic\PYZus{}columns}\PY{p}{)}\PY{p}{:}
+    \PY{n}{plt}\PY{o}{.}\PY{n}{plot}\PY{p}{(}
+        \PY{n}{speech\PYZus{}level}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{episode\PYZus{}order}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{,} \PY{n}{speech\PYZus{}level}\PY{p}{[}\PY{n}{col}\PY{p}{]}\PY{p}{,}
+        \PY{n}{label}\PY{o}{=}\PY{n}{topic\PYZus{}labels}\PY{p}{[}\PY{n}{i}\PY{p}{]}\PY{p}{,} \PY{n}{marker}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{o}\PY{l+s+s1}{\PYZsq{}}
+    \PY{p}{)}
+
+\PY{n}{plt}\PY{o}{.}\PY{n}{title}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Temporal Evolution of Topics Across Episodes}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{n}{fontsize}\PY{o}{=}\PY{l+m+mi}{16}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{xlabel}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Episode Order}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{n}{fontsize}\PY{o}{=}\PY{l+m+mi}{12}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{ylabel}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Topic Probability}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{n}{fontsize}\PY{o}{=}\PY{l+m+mi}{12}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{legend}\PY{p}{(}\PY{n}{title}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Topics}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{n}{bbox\PYZus{}to\PYZus{}anchor}\PY{o}{=}\PY{p}{(}\PY{l+m+mf}{1.02}\PY{p}{,} \PY{l+m+mi}{1}\PY{p}{)}\PY{p}{,} \PY{n}{loc}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{upper left}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{fontsize}\PY{o}{=}\PY{l+m+mi}{10}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{grid}\PY{p}{(}\PY{n}{alpha}\PY{o}{=}\PY{l+m+mf}{0.4}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{tight\PYZus{}layout}\PY{p}{(}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{show}\PY{p}{(}\PY{p}{)}
+
+\PY{c+c1}{\PYZsh{} ==============================================================}
+\PY{c+c1}{\PYZsh{}️⃣ STEP 4: Highlight Dominant Topic per Episode}
+\PY{c+c1}{\PYZsh{} ==============================================================}
+\PY{n}{plt}\PY{o}{.}\PY{n}{figure}\PY{p}{(}\PY{n}{figsize}\PY{o}{=}\PY{p}{(}\PY{l+m+mi}{14}\PY{p}{,}\PY{l+m+mi}{3}\PY{p}{)}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{scatter}\PY{p}{(}
+    \PY{n}{speech\PYZus{}level}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{episode\PYZus{}order}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{,}
+    \PY{n}{speech\PYZus{}level}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{dominant\PYZus{}topic}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{,}
+    \PY{n}{c}\PY{o}{=}\PY{n}{speech\PYZus{}level}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{dominant\PYZus{}topic}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{,}
+    \PY{n}{cmap}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{tab10}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{s}\PY{o}{=}\PY{l+m+mi}{80}
+\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{yticks}\PY{p}{(}\PY{n+nb}{range}\PY{p}{(}\PY{n}{K}\PY{p}{)}\PY{p}{,} \PY{p}{[}\PY{n}{topic\PYZus{}labels}\PY{p}{[}\PY{n}{i}\PY{p}{]} \PY{k}{for} \PY{n}{i} \PY{o+ow}{in} \PY{n+nb}{range}\PY{p}{(}\PY{n}{K}\PY{p}{)}\PY{p}{]}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{xlabel}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Episode Order}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{n}{fontsize}\PY{o}{=}\PY{l+m+mi}{12}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{ylabel}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Dominant Topic}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{n}{fontsize}\PY{o}{=}\PY{l+m+mi}{12}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{title}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Dominant Topic per Episode}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{n}{fontsize}\PY{o}{=}\PY{l+m+mi}{16}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{grid}\PY{p}{(}\PY{n}{alpha}\PY{o}{=}\PY{l+m+mf}{0.3}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{tight\PYZus{}layout}\PY{p}{(}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{show}\PY{p}{(}\PY{p}{)}
+
+\PY{c+c1}{\PYZsh{} ==============================================================}
+\PY{c+c1}{\PYZsh{}️⃣ STEP 5: Top Keywords per Topic (Bar Graph)}
+\PY{c+c1}{\PYZsh{} ==============================================================}
+\PY{n}{fig}\PY{p}{,} \PY{n}{axes} \PY{o}{=} \PY{n}{plt}\PY{o}{.}\PY{n}{subplots}\PY{p}{(}\PY{l+m+mi}{2}\PY{p}{,} \PY{l+m+mi}{3}\PY{p}{,} \PY{n}{figsize}\PY{o}{=}\PY{p}{(}\PY{l+m+mi}{18}\PY{p}{,}\PY{l+m+mi}{10}\PY{p}{)}\PY{p}{)}
+\PY{n}{axes} \PY{o}{=} \PY{n}{axes}\PY{o}{.}\PY{n}{flatten}\PY{p}{(}\PY{p}{)}
+
+\PY{k}{for} \PY{n}{i}\PY{p}{,} \PY{n}{ax} \PY{o+ow}{in} \PY{n+nb}{enumerate}\PY{p}{(}\PY{n}{axes}\PY{p}{)}\PY{p}{:}
+    \PY{n}{top\PYZus{}words} \PY{o}{=} \PY{n}{lda\PYZus{}model}\PY{o}{.}\PY{n}{show\PYZus{}topic}\PY{p}{(}\PY{n}{i}\PY{p}{,} \PY{n}{topn}\PY{o}{=}\PY{l+m+mi}{10}\PY{p}{)}
+    \PY{n}{words} \PY{o}{=} \PY{p}{[}\PY{n}{word} \PY{k}{for} \PY{n}{word}\PY{p}{,} \PY{n}{prob} \PY{o+ow}{in} \PY{n}{top\PYZus{}words}\PY{p}{]}
+    \PY{n}{probs} \PY{o}{=} \PY{p}{[}\PY{n}{prob} \PY{k}{for} \PY{n}{word}\PY{p}{,} \PY{n}{prob} \PY{o+ow}{in} \PY{n}{top\PYZus{}words}\PY{p}{]}
+
+    \PY{n}{ax}\PY{o}{.}\PY{n}{barh}\PY{p}{(}\PY{n}{words}\PY{p}{[}\PY{p}{:}\PY{p}{:}\PY{o}{\PYZhy{}}\PY{l+m+mi}{1}\PY{p}{]}\PY{p}{,} \PY{n}{probs}\PY{p}{[}\PY{p}{:}\PY{p}{:}\PY{o}{\PYZhy{}}\PY{l+m+mi}{1}\PY{p}{]}\PY{p}{,} \PY{n}{color}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{skyblue}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+    \PY{n}{ax}\PY{o}{.}\PY{n}{set\PYZus{}title}\PY{p}{(}\PY{l+s+sa}{f}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Topic }\PY{l+s+si}{\PYZob{}}\PY{n}{i}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{: }\PY{l+s+si}{\PYZob{}}\PY{n}{topic\PYZus{}labels}\PY{p}{[}\PY{n}{i}\PY{p}{]}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{n}{fontsize}\PY{o}{=}\PY{l+m+mi}{12}\PY{p}{)}
+    \PY{n}{ax}\PY{o}{.}\PY{n}{set\PYZus{}xlabel}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Word Probability}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+    \PY{n}{ax}\PY{o}{.}\PY{n}{invert\PYZus{}yaxis}\PY{p}{(}\PY{p}{)}
+    \PY{k}{for} \PY{n}{j}\PY{p}{,} \PY{n}{v} \PY{o+ow}{in} \PY{n+nb}{enumerate}\PY{p}{(}\PY{n}{probs}\PY{p}{[}\PY{p}{:}\PY{p}{:}\PY{o}{\PYZhy{}}\PY{l+m+mi}{1}\PY{p}{]}\PY{p}{)}\PY{p}{:}
+        \PY{n}{ax}\PY{o}{.}\PY{n}{text}\PY{p}{(}\PY{n}{v} \PY{o}{+} \PY{l+m+mf}{0.001}\PY{p}{,} \PY{n}{j}\PY{p}{,} \PY{l+s+sa}{f}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+si}{\PYZob{}}\PY{n}{v}\PY{l+s+si}{:}\PY{l+s+s2}{.2f}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{n}{va}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{center}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{fontsize}\PY{o}{=}\PY{l+m+mi}{9}\PY{p}{)}
+
+\PY{n}{plt}\PY{o}{.}\PY{n}{suptitle}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Top Keywords per Topic with Probabilities}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{n}{fontsize}\PY{o}{=}\PY{l+m+mi}{20}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{tight\PYZus{}layout}\PY{p}{(}\PY{n}{rect}\PY{o}{=}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{,} \PY{l+m+mi}{0}\PY{p}{,} \PY{l+m+mi}{1}\PY{p}{,} \PY{l+m+mf}{0.95}\PY{p}{]}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{show}\PY{p}{(}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_3_0.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_3_1.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_3_2.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_3_3.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_3_4.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{4}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{c+c1}{\PYZsh{} \PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}}
+\PY{c+c1}{\PYZsh{} Extra Markov analysis: MFPT, Absorbing\PYZhy{}state check, Entropy rate}
+\PY{c+c1}{\PYZsh{} Run this immediately after your PM code (it uses soft\PYZus{}mat, stationary, K, topic\PYZus{}labels)}
+\PY{c+c1}{\PYZsh{} \PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}}
+
+\PY{k+kn}{import} \PY{n+nn}{numpy} \PY{k}{as} \PY{n+nn}{np}
+\PY{k+kn}{import} \PY{n+nn}{scipy}\PY{n+nn}{.}\PY{n+nn}{linalg} \PY{k}{as} \PY{n+nn}{la}
+
+\PY{c+c1}{\PYZsh{} Safety checks}
+\PY{k}{assert} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{soft\PYZus{}mat}\PY{l+s+s1}{\PYZsq{}} \PY{o+ow}{in} \PY{n+nb}{globals}\PY{p}{(}\PY{p}{)}\PY{p}{,} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{soft\PYZus{}mat not found. Run PM code first.}\PY{l+s+s2}{\PYZdq{}}
+\PY{k}{assert} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{K}\PY{l+s+s1}{\PYZsq{}} \PY{o+ow}{in} \PY{n+nb}{globals}\PY{p}{(}\PY{p}{)}\PY{p}{,} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{K not found. Run PM code first.}\PY{l+s+s2}{\PYZdq{}}
+\PY{k}{assert} \PY{n}{soft\PYZus{}mat}\PY{o}{.}\PY{n}{shape} \PY{o}{==} \PY{p}{(}\PY{n}{K}\PY{p}{,} \PY{n}{K}\PY{p}{)}\PY{p}{,} \PY{l+s+sa}{f}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{soft\PYZus{}mat shape }\PY{l+s+si}{\PYZob{}}\PY{n}{soft\PYZus{}mat}\PY{o}{.}\PY{n}{shape}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{ doesn}\PY{l+s+s2}{\PYZsq{}}\PY{l+s+s2}{t match K=}\PY{l+s+si}{\PYZob{}}\PY{n}{K}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{\PYZdq{}}
+
+\PY{c+c1}{\PYZsh{} Ensure rows sum to 1 (normalize small numerical noise)}
+\PY{n}{row\PYZus{}sums} \PY{o}{=} \PY{n}{soft\PYZus{}mat}\PY{o}{.}\PY{n}{sum}\PY{p}{(}\PY{n}{axis}\PY{o}{=}\PY{l+m+mi}{1}\PY{p}{,} \PY{n}{keepdims}\PY{o}{=}\PY{k+kc}{True}\PY{p}{)}
+\PY{n}{soft\PYZus{}mat} \PY{o}{=} \PY{n}{soft\PYZus{}mat} \PY{o}{/} \PY{n}{np}\PY{o}{.}\PY{n}{where}\PY{p}{(}\PY{n}{row\PYZus{}sums}\PY{o}{==}\PY{l+m+mi}{0}\PY{p}{,} \PY{l+m+mi}{1}\PY{p}{,} \PY{n}{row\PYZus{}sums}\PY{p}{)}  \PY{c+c1}{\PYZsh{} avoid division by zero}
+
+\PY{c+c1}{\PYZsh{} 1) Expected return times (you had this, but recompute cleanly)}
+\PY{c+c1}{\PYZsh{} If stationary contains zeros, guard division}
+\PY{n}{stationary} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{array}\PY{p}{(}\PY{n}{stationary}\PY{p}{,} \PY{n}{dtype}\PY{o}{=}\PY{n+nb}{float}\PY{p}{)}
+\PY{n}{stationary} \PY{o}{=} \PY{n}{stationary} \PY{o}{/} \PY{n}{stationary}\PY{o}{.}\PY{n}{sum}\PY{p}{(}\PY{p}{)}  \PY{c+c1}{\PYZsh{} normalize just in case}
+\PY{n}{expected\PYZus{}return\PYZus{}times} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{where}\PY{p}{(}\PY{n}{stationary}\PY{o}{\PYZgt{}}\PY{l+m+mi}{0}\PY{p}{,} \PY{l+m+mf}{1.0} \PY{o}{/} \PY{n}{stationary}\PY{p}{,} \PY{n}{np}\PY{o}{.}\PY{n}{inf}\PY{p}{)}
+
+\PY{n+nb}{print}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+se}{\PYZbs{}n}\PY{l+s+s2}{\PYZhy{}\PYZhy{}\PYZhy{} Expected return times (1 / stationary) \PYZhy{}\PYZhy{}\PYZhy{}}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\PY{k}{for} \PY{n}{i} \PY{o+ow}{in} \PY{n+nb}{range}\PY{p}{(}\PY{n}{K}\PY{p}{)}\PY{p}{:}
+    \PY{n+nb}{print}\PY{p}{(}\PY{l+s+sa}{f}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Topic }\PY{l+s+si}{\PYZob{}}\PY{n}{i}\PY{l+s+si}{:}\PY{l+s+s2}{\PYZgt{}1}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{ (}\PY{l+s+si}{\PYZob{}}\PY{n}{topic\PYZus{}labels}\PY{o}{.}\PY{n}{get}\PY{p}{(}\PY{n}{i}\PY{p}{,}\PY{+w}{ }\PY{n}{i}\PY{p}{)}\PY{l+s+si}{:}\PY{l+s+s2}{\PYZlt{}35}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{) : π=}\PY{l+s+si}{\PYZob{}}\PY{n}{stationary}\PY{p}{[}\PY{n}{i}\PY{p}{]}\PY{l+s+si}{:}\PY{l+s+s2}{.6f}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{ \PYZhy{}\PYZgt{} return ≈ }\PY{l+s+si}{\PYZob{}}\PY{n}{expected\PYZus{}return\PYZus{}times}\PY{p}{[}\PY{n}{i}\PY{p}{]}\PY{l+s+si}{:}\PY{l+s+s2}{.1f}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{ steps}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+
+\PY{c+c1}{\PYZsh{} \PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}}
+\PY{c+c1}{\PYZsh{} 2) Mean First Passage Time (MFPT)}
+\PY{c+c1}{\PYZsh{}    For each target j, solve linear system for m\PYZus{}ij:}
+\PY{c+c1}{\PYZsh{}      m\PYZus{}jj = 0}
+\PY{c+c1}{\PYZsh{}      for i != j: m\PYZus{}ij = 1 + sum\PYZus{}k P\PYZus{}ik * m\PYZus{}kj}
+\PY{c+c1}{\PYZsh{}    Equivalent linear system for vector m\PYZus{}reduced (i != j):}
+\PY{c+c1}{\PYZsh{}      (I\PYZus{}reduced \PYZhy{} P\PYZus{}reduced) m\PYZus{}reduced = 1\PYZus{}vector}
+\PY{c+c1}{\PYZsh{} \PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}}
+
+\PY{k}{def} \PY{n+nf}{compute\PYZus{}mfpt}\PY{p}{(}\PY{n}{P}\PY{p}{)}\PY{p}{:}
+\PY{+w}{    }\PY{l+s+sd}{\PYZdq{}\PYZdq{}\PYZdq{}}
+\PY{l+s+sd}{    Compute MFPT matrix M where M[i,j] = expected steps to reach j starting from i.}
+\PY{l+s+sd}{    Method: For each target j, solve linear system removing row/col j.}
+\PY{l+s+sd}{    Returns: KxK numpy array with M[j,j] = 0.}
+\PY{l+s+sd}{    \PYZdq{}\PYZdq{}\PYZdq{}}
+    \PY{n}{K} \PY{o}{=} \PY{n}{P}\PY{o}{.}\PY{n}{shape}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}
+    \PY{n}{M} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{zeros}\PY{p}{(}\PY{p}{(}\PY{n}{K}\PY{p}{,} \PY{n}{K}\PY{p}{)}\PY{p}{,} \PY{n}{dtype}\PY{o}{=}\PY{n+nb}{float}\PY{p}{)}
+    \PY{n}{I} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{eye}\PY{p}{(}\PY{n}{K}\PY{p}{)}
+    \PY{n}{ones} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{ones}\PY{p}{(}\PY{n}{K}\PY{p}{,} \PY{n}{dtype}\PY{o}{=}\PY{n+nb}{float}\PY{p}{)}
+
+    \PY{k}{for} \PY{n}{j} \PY{o+ow}{in} \PY{n+nb}{range}\PY{p}{(}\PY{n}{K}\PY{p}{)}\PY{p}{:}
+        \PY{c+c1}{\PYZsh{} Indices excluding j}
+        \PY{n}{idx} \PY{o}{=} \PY{p}{[}\PY{n}{i} \PY{k}{for} \PY{n}{i} \PY{o+ow}{in} \PY{n+nb}{range}\PY{p}{(}\PY{n}{K}\PY{p}{)} \PY{k}{if} \PY{n}{i} \PY{o}{!=} \PY{n}{j}\PY{p}{]}
+        \PY{c+c1}{\PYZsh{} Build reduced system: (I\PYZus{}reduced \PYZhy{} P\PYZus{}reduced) * m\PYZus{}reduced = 1}
+        \PY{n}{A} \PY{o}{=} \PY{n}{I}\PY{p}{[}\PY{n}{np}\PY{o}{.}\PY{n}{ix\PYZus{}}\PY{p}{(}\PY{n}{idx}\PY{p}{,} \PY{n}{idx}\PY{p}{)}\PY{p}{]} \PY{o}{\PYZhy{}} \PY{n}{P}\PY{p}{[}\PY{n}{np}\PY{o}{.}\PY{n}{ix\PYZus{}}\PY{p}{(}\PY{n}{idx}\PY{p}{,} \PY{n}{idx}\PY{p}{)}\PY{p}{]}
+        \PY{n}{b} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{ones}\PY{p}{(}\PY{n+nb}{len}\PY{p}{(}\PY{n}{idx}\PY{p}{)}\PY{p}{,} \PY{n}{dtype}\PY{o}{=}\PY{n+nb}{float}\PY{p}{)}
+        \PY{c+c1}{\PYZsh{} Solve A x = b}
+        \PY{c+c1}{\PYZsh{} Check singularity / near\PYZhy{}singularity and regularize slightly if needed}
+        \PY{k}{try}\PY{p}{:}
+            \PY{n}{x} \PY{o}{=} \PY{n}{la}\PY{o}{.}\PY{n}{solve}\PY{p}{(}\PY{n}{A}\PY{p}{,} \PY{n}{b}\PY{p}{,} \PY{n}{assume\PYZus{}a}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{gen}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+        \PY{k}{except} \PY{n}{la}\PY{o}{.}\PY{n}{LinAlgError}\PY{p}{:}
+            \PY{c+c1}{\PYZsh{} Regularize A slightly}
+            \PY{n}{eps} \PY{o}{=} \PY{l+m+mf}{1e\PYZhy{}8}
+            \PY{n}{x} \PY{o}{=} \PY{n}{la}\PY{o}{.}\PY{n}{solve}\PY{p}{(}\PY{n}{A} \PY{o}{+} \PY{n}{eps} \PY{o}{*} \PY{n}{np}\PY{o}{.}\PY{n}{eye}\PY{p}{(}\PY{n}{A}\PY{o}{.}\PY{n}{shape}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{)}\PY{p}{,} \PY{n}{b}\PY{p}{)}
+        \PY{c+c1}{\PYZsh{} Place results into M[:, j]}
+        \PY{k}{for} \PY{n}{pos}\PY{p}{,} \PY{n}{i} \PY{o+ow}{in} \PY{n+nb}{enumerate}\PY{p}{(}\PY{n}{idx}\PY{p}{)}\PY{p}{:}
+            \PY{n}{M}\PY{p}{[}\PY{n}{i}\PY{p}{,} \PY{n}{j}\PY{p}{]} \PY{o}{=} \PY{n}{x}\PY{p}{[}\PY{n}{pos}\PY{p}{]}
+        \PY{n}{M}\PY{p}{[}\PY{n}{j}\PY{p}{,} \PY{n}{j}\PY{p}{]} \PY{o}{=} \PY{l+m+mf}{0.0}
+    \PY{k}{return} \PY{n}{M}
+
+\PY{n}{mfpt} \PY{o}{=} \PY{n}{compute\PYZus{}mfpt}\PY{p}{(}\PY{n}{soft\PYZus{}mat}\PY{p}{)}
+
+\PY{c+c1}{\PYZsh{} Print summary MFPT table (rounded)}
+\PY{n+nb}{print}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+se}{\PYZbs{}n}\PY{l+s+s2}{\PYZhy{}\PYZhy{}\PYZhy{} Mean First Passage Time (MFPT) matrix (rows = start topic i, cols = target topic j) \PYZhy{}\PYZhy{}\PYZhy{}}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\PY{c+c1}{\PYZsh{} Print nicely: header}
+\PY{n}{header} \PY{o}{=} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{     }\PY{l+s+s2}{\PYZdq{}} \PY{o}{+} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{  }\PY{l+s+s2}{\PYZdq{}}\PY{o}{.}\PY{n}{join}\PY{p}{(}\PY{p}{[}\PY{l+s+sa}{f}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+si}{\PYZob{}}\PY{n}{j}\PY{l+s+si}{:}\PY{l+s+s2}{\PYZgt{}2}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{\PYZdq{}} \PY{k}{for} \PY{n}{j} \PY{o+ow}{in} \PY{n+nb}{range}\PY{p}{(}\PY{n}{K}\PY{p}{)}\PY{p}{]}\PY{p}{)}
+\PY{n+nb}{print}\PY{p}{(}\PY{n}{header}\PY{p}{)}
+\PY{k}{for} \PY{n}{i} \PY{o+ow}{in} \PY{n+nb}{range}\PY{p}{(}\PY{n}{K}\PY{p}{)}\PY{p}{:}
+    \PY{n}{row} \PY{o}{=} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{ }\PY{l+s+s2}{\PYZdq{}}\PY{o}{.}\PY{n}{join}\PY{p}{(}\PY{p}{[}\PY{l+s+sa}{f}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+si}{\PYZob{}}\PY{n}{mfpt}\PY{p}{[}\PY{n}{i}\PY{p}{,}\PY{n}{j}\PY{p}{]}\PY{l+s+si}{:}\PY{l+s+s2}{6.1f}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{\PYZdq{}} \PY{k}{for} \PY{n}{j} \PY{o+ow}{in} \PY{n+nb}{range}\PY{p}{(}\PY{n}{K}\PY{p}{)}\PY{p}{]}\PY{p}{)}
+    \PY{n+nb}{print}\PY{p}{(}\PY{l+s+sa}{f}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+si}{\PYZob{}}\PY{n}{i}\PY{l+s+si}{:}\PY{l+s+s2}{\PYZgt{}2}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{ | }\PY{l+s+si}{\PYZob{}}\PY{n}{row}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{   | }\PY{l+s+si}{\PYZob{}}\PY{n}{topic\PYZus{}labels}\PY{o}{.}\PY{n}{get}\PY{p}{(}\PY{n}{i}\PY{p}{,}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\PY{n+nb}{print}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+se}{\PYZbs{}n}\PY{l+s+s2}{Interpretation: entry M[i,j] = expected speeches to reach topic j when starting from topic i.}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+
+\PY{c+c1}{\PYZsh{} Provide some example MFPT interpretations for top pairs}
+\PY{n+nb}{print}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+se}{\PYZbs{}n}\PY{l+s+s2}{Example interpretations (selected):}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\PY{k}{for} \PY{n}{i} \PY{o+ow}{in} \PY{n+nb}{range}\PY{p}{(}\PY{n}{K}\PY{p}{)}\PY{p}{:}
+    \PY{c+c1}{\PYZsh{} pick the target with smallest MFPT from i excluding itself}
+    \PY{n}{others} \PY{o}{=} \PY{p}{[}\PY{p}{(}\PY{n}{j}\PY{p}{,} \PY{n}{mfpt}\PY{p}{[}\PY{n}{i}\PY{p}{,}\PY{n}{j}\PY{p}{]}\PY{p}{)} \PY{k}{for} \PY{n}{j} \PY{o+ow}{in} \PY{n+nb}{range}\PY{p}{(}\PY{n}{K}\PY{p}{)} \PY{k}{if} \PY{n}{j} \PY{o}{!=} \PY{n}{i}\PY{p}{]}
+    \PY{n}{j\PYZus{}min}\PY{p}{,} \PY{n}{val\PYZus{}min} \PY{o}{=} \PY{n+nb}{min}\PY{p}{(}\PY{n}{others}\PY{p}{,} \PY{n}{key}\PY{o}{=}\PY{k}{lambda} \PY{n}{x}\PY{p}{:} \PY{n}{x}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{]}\PY{p}{)}
+    \PY{n+nb}{print}\PY{p}{(}\PY{l+s+sa}{f}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{ \PYZhy{} If current topic is }\PY{l+s+si}{\PYZob{}}\PY{n}{i}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{ (}\PY{l+s+si}{\PYZob{}}\PY{n}{topic\PYZus{}labels}\PY{o}{.}\PY{n}{get}\PY{p}{(}\PY{n}{i}\PY{p}{)}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{), expected steps to reach }\PY{l+s+si}{\PYZob{}}\PY{n}{j\PYZus{}min}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{ (}\PY{l+s+si}{\PYZob{}}\PY{n}{topic\PYZus{}labels}\PY{o}{.}\PY{n}{get}\PY{p}{(}\PY{n}{j\PYZus{}min}\PY{p}{)}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{) ≈ }\PY{l+s+si}{\PYZob{}}\PY{n}{val\PYZus{}min}\PY{l+s+si}{:}\PY{l+s+s2}{.1f}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+
+\PY{c+c1}{\PYZsh{} \PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}}
+\PY{c+c1}{\PYZsh{} 3) Absorbing / nearly\PYZhy{}absorbing state detection}
+\PY{c+c1}{\PYZsh{}    A truly absorbing state j has P[j,j] == 1 (and other row entries 0).}
+\PY{c+c1}{\PYZsh{}    We will detect exact and near\PYZhy{}absorbing (threshold) states.}
+\PY{c+c1}{\PYZsh{} \PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}}
+\PY{n}{abs\PYZus{}tol} \PY{o}{=} \PY{l+m+mf}{1e\PYZhy{}9}           \PY{c+c1}{\PYZsh{} exact check tolerance}
+\PY{n}{near\PYZus{}abs\PYZus{}tol} \PY{o}{=} \PY{l+m+mf}{0.999}     \PY{c+c1}{\PYZsh{} treat states with P[j,j] \PYZgt{}= 0.999 as near\PYZhy{}absorbing}
+
+\PY{n}{absorbing\PYZus{}states} \PY{o}{=} \PY{p}{[}\PY{n}{j} \PY{k}{for} \PY{n}{j} \PY{o+ow}{in} \PY{n+nb}{range}\PY{p}{(}\PY{n}{K}\PY{p}{)} \PY{k}{if} \PY{n+nb}{abs}\PY{p}{(}\PY{n}{soft\PYZus{}mat}\PY{p}{[}\PY{n}{j}\PY{p}{,}\PY{n}{j}\PY{p}{]} \PY{o}{\PYZhy{}} \PY{l+m+mf}{1.0}\PY{p}{)} \PY{o}{\PYZlt{}}\PY{o}{=} \PY{n}{abs\PYZus{}tol} \PY{o+ow}{and} \PY{n}{np}\PY{o}{.}\PY{n}{allclose}\PY{p}{(}\PY{n}{soft\PYZus{}mat}\PY{p}{[}\PY{n}{j}\PY{p}{,} \PY{p}{:}\PY{p}{]}\PY{p}{,} \PY{n}{np}\PY{o}{.}\PY{n}{eye}\PY{p}{(}\PY{n}{K}\PY{p}{)}\PY{p}{[}\PY{n}{j}\PY{p}{,} \PY{p}{:}\PY{p}{]}\PY{p}{,} \PY{n}{atol}\PY{o}{=}\PY{l+m+mf}{1e\PYZhy{}8}\PY{p}{)}\PY{p}{]}
+\PY{n}{near\PYZus{}absorbing\PYZus{}states} \PY{o}{=} \PY{p}{[}\PY{n}{j} \PY{k}{for} \PY{n}{j} \PY{o+ow}{in} \PY{n+nb}{range}\PY{p}{(}\PY{n}{K}\PY{p}{)} \PY{k}{if} \PY{n}{soft\PYZus{}mat}\PY{p}{[}\PY{n}{j}\PY{p}{,}\PY{n}{j}\PY{p}{]} \PY{o}{\PYZgt{}}\PY{o}{=} \PY{n}{near\PYZus{}abs\PYZus{}tol} \PY{o+ow}{and} \PY{n}{j} \PY{o+ow}{not} \PY{o+ow}{in} \PY{n}{absorbing\PYZus{}states}\PY{p}{]}
+
+\PY{n+nb}{print}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+se}{\PYZbs{}n}\PY{l+s+s2}{\PYZhy{}\PYZhy{}\PYZhy{} Absorbing / Near\PYZhy{}absorbing state check \PYZhy{}\PYZhy{}\PYZhy{}}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\PY{k}{if} \PY{n}{absorbing\PYZus{}states}\PY{p}{:}
+    \PY{k}{for} \PY{n}{j} \PY{o+ow}{in} \PY{n}{absorbing\PYZus{}states}\PY{p}{:}
+        \PY{n+nb}{print}\PY{p}{(}\PY{l+s+sa}{f}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Topic }\PY{l+s+si}{\PYZob{}}\PY{n}{j}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{ (}\PY{l+s+si}{\PYZob{}}\PY{n}{topic\PYZus{}labels}\PY{o}{.}\PY{n}{get}\PY{p}{(}\PY{n}{j}\PY{p}{)}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{) is an ABSORBING state (P[j,j] ≈ 1).}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\PY{k}{else}\PY{p}{:}
+    \PY{n+nb}{print}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{No exactly absorbing states found.}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\PY{k}{if} \PY{n}{near\PYZus{}absorbing\PYZus{}states}\PY{p}{:}
+    \PY{k}{for} \PY{n}{j} \PY{o+ow}{in} \PY{n}{near\PYZus{}absorbing\PYZus{}states}\PY{p}{:}
+        \PY{n+nb}{print}\PY{p}{(}\PY{l+s+sa}{f}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Topic }\PY{l+s+si}{\PYZob{}}\PY{n}{j}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{ (}\PY{l+s+si}{\PYZob{}}\PY{n}{topic\PYZus{}labels}\PY{o}{.}\PY{n}{get}\PY{p}{(}\PY{n}{j}\PY{p}{)}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{) is NEAR\PYZhy{}ABSORBING (P[j,j] = }\PY{l+s+si}{\PYZob{}}\PY{n}{soft\PYZus{}mat}\PY{p}{[}\PY{n}{j}\PY{p}{,}\PY{n}{j}\PY{p}{]}\PY{l+s+si}{:}\PY{l+s+s2}{.6f}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{). Consider interpreting it as persistent.}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\PY{k}{else}\PY{p}{:}
+    \PY{n+nb}{print}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{No near\PYZhy{}absorbing states (P[j,j] \PYZgt{}= 0.999) were found.}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+
+\PY{c+c1}{\PYZsh{} Also check if stationary is heavily concentrated (practical absorbing behavior)}
+\PY{n}{dominant\PYZus{}idx} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{argmax}\PY{p}{(}\PY{n}{stationary}\PY{p}{)}
+\PY{k}{if} \PY{n}{stationary}\PY{p}{[}\PY{n}{dominant\PYZus{}idx}\PY{p}{]} \PY{o}{\PYZgt{}} \PY{l+m+mf}{0.9}\PY{p}{:}
+    \PY{n+nb}{print}\PY{p}{(}\PY{l+s+sa}{f}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+se}{\PYZbs{}n}\PY{l+s+s2}{Note: Stationary distribution dominated by Topic }\PY{l+s+si}{\PYZob{}}\PY{n}{dominant\PYZus{}idx}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{ (}\PY{l+s+si}{\PYZob{}}\PY{n}{topic\PYZus{}labels}\PY{o}{.}\PY{n}{get}\PY{p}{(}\PY{n}{dominant\PYZus{}idx}\PY{p}{)}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{) with π = }\PY{l+s+si}{\PYZob{}}\PY{n}{stationary}\PY{p}{[}\PY{n}{dominant\PYZus{}idx}\PY{p}{]}\PY{l+s+si}{:}\PY{l+s+s2}{.4f}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{. This implies practically\PYZhy{}absorbing behavior.}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\PY{k}{else}\PY{p}{:}
+    \PY{n+nb}{print}\PY{p}{(}\PY{l+s+sa}{f}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+se}{\PYZbs{}n}\PY{l+s+s2}{Stationary distribution is not overwhelmingly dominated by a single topic (max π = }\PY{l+s+si}{\PYZob{}}\PY{n}{stationary}\PY{p}{[}\PY{n}{dominant\PYZus{}idx}\PY{p}{]}\PY{l+s+si}{:}\PY{l+s+s2}{.4f}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{).}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+
+\PY{c+c1}{\PYZsh{} \PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}}
+\PY{c+c1}{\PYZsh{} 4) Entropy rate of the Markov chain}
+\PY{c+c1}{\PYZsh{}    H = \PYZhy{} sum\PYZus{}i π\PYZus{}i * sum\PYZus{}j P\PYZus{}ij * log2(P\PYZus{}ij)   (bits per step)}
+\PY{c+c1}{\PYZsh{}    Handle P\PYZus{}ij == 0 by skipping terms (0 * log 0 = 0).}
+\PY{c+c1}{\PYZsh{} \PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}}
+\PY{k}{def} \PY{n+nf}{entropy\PYZus{}rate}\PY{p}{(}\PY{n}{P}\PY{p}{,} \PY{n}{pi}\PY{p}{,} \PY{n}{base}\PY{o}{=}\PY{l+m+mf}{2.0}\PY{p}{)}\PY{p}{:}
+    \PY{c+c1}{\PYZsh{} ensure numeric stability}
+    \PY{n}{P} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{array}\PY{p}{(}\PY{n}{P}\PY{p}{,} \PY{n}{dtype}\PY{o}{=}\PY{n+nb}{float}\PY{p}{)}
+    \PY{n}{pi} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{array}\PY{p}{(}\PY{n}{pi}\PY{p}{,} \PY{n}{dtype}\PY{o}{=}\PY{n+nb}{float}\PY{p}{)}
+    \PY{n}{ent} \PY{o}{=} \PY{l+m+mf}{0.0}
+    \PY{k}{for} \PY{n}{i} \PY{o+ow}{in} \PY{n+nb}{range}\PY{p}{(}\PY{n+nb}{len}\PY{p}{(}\PY{n}{P}\PY{p}{)}\PY{p}{)}\PY{p}{:}
+        \PY{n}{row} \PY{o}{=} \PY{n}{P}\PY{p}{[}\PY{n}{i}\PY{p}{,}\PY{p}{:}\PY{p}{]}
+        \PY{c+c1}{\PYZsh{} only consider positive probs}
+        \PY{n}{pos} \PY{o}{=} \PY{n}{row} \PY{o}{\PYZgt{}} \PY{l+m+mi}{0}
+        \PY{n}{ent\PYZus{}row} \PY{o}{=} \PY{o}{\PYZhy{}} \PY{n}{np}\PY{o}{.}\PY{n}{sum}\PY{p}{(}\PY{n}{row}\PY{p}{[}\PY{n}{pos}\PY{p}{]} \PY{o}{*} \PY{n}{np}\PY{o}{.}\PY{n}{log}\PY{p}{(}\PY{n}{row}\PY{p}{[}\PY{n}{pos}\PY{p}{]}\PY{p}{)} \PY{o}{/} \PY{n}{np}\PY{o}{.}\PY{n}{log}\PY{p}{(}\PY{n}{base}\PY{p}{)}\PY{p}{)}
+        \PY{n}{ent} \PY{o}{+}\PY{o}{=} \PY{n}{pi}\PY{p}{[}\PY{n}{i}\PY{p}{]} \PY{o}{*} \PY{n}{ent\PYZus{}row}
+    \PY{k}{return} \PY{n}{ent}
+
+\PY{n}{H\PYZus{}bits} \PY{o}{=} \PY{n}{entropy\PYZus{}rate}\PY{p}{(}\PY{n}{soft\PYZus{}mat}\PY{p}{,} \PY{n}{stationary}\PY{p}{,} \PY{n}{base}\PY{o}{=}\PY{l+m+mf}{2.0}\PY{p}{)}
+\PY{n}{H\PYZus{}nats} \PY{o}{=} \PY{n}{entropy\PYZus{}rate}\PY{p}{(}\PY{n}{soft\PYZus{}mat}\PY{p}{,} \PY{n}{stationary}\PY{p}{,} \PY{n}{base}\PY{o}{=}\PY{n}{np}\PY{o}{.}\PY{n}{e}\PY{p}{)}
+
+\PY{n+nb}{print}\PY{p}{(}\PY{l+s+sa}{f}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+se}{\PYZbs{}n}\PY{l+s+s2}{\PYZhy{}\PYZhy{}\PYZhy{} Entropy rate of the Markov chain \PYZhy{}\PYZhy{}\PYZhy{}}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\PY{n+nb}{print}\PY{p}{(}\PY{l+s+sa}{f}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Entropy rate = }\PY{l+s+si}{\PYZob{}}\PY{n}{H\PYZus{}bits}\PY{l+s+si}{:}\PY{l+s+s2}{.6f}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{ bits per step  (≈ }\PY{l+s+si}{\PYZob{}}\PY{n}{H\PYZus{}nats}\PY{l+s+si}{:}\PY{l+s+s2}{.6f}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{ nats per step)}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\PY{n+nb}{print}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Interpretation: lower entropy \PYZhy{}\PYZgt{} more predictable topic transitions; higher entropy \PYZhy{}\PYZgt{} more diverse/unpredictable transitions.}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+
+\PY{c+c1}{\PYZsh{} \PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}}
+\PY{c+c1}{\PYZsh{} 5) (Optional) Save outputs for later plotting / reporting}
+\PY{c+c1}{\PYZsh{} \PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}}
+\PY{c+c1}{\PYZsh{} For convenience, create dictionaries with results}
+\PY{n}{markov\PYZus{}analysis} \PY{o}{=} \PY{p}{\PYZob{}}
+    \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{mfpt\PYZus{}matrix}\PY{l+s+s1}{\PYZsq{}}\PY{p}{:} \PY{n}{mfpt}\PY{p}{,}
+    \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{absorbing\PYZus{}states}\PY{l+s+s1}{\PYZsq{}}\PY{p}{:} \PY{n}{absorbing\PYZus{}states}\PY{p}{,}
+    \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{near\PYZus{}absorbing\PYZus{}states}\PY{l+s+s1}{\PYZsq{}}\PY{p}{:} \PY{n}{near\PYZus{}absorbing\PYZus{}states}\PY{p}{,}
+    \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{entropy\PYZus{}bits}\PY{l+s+s1}{\PYZsq{}}\PY{p}{:} \PY{n}{H\PYZus{}bits}\PY{p}{,}
+    \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{expected\PYZus{}return\PYZus{}times}\PY{l+s+s1}{\PYZsq{}}\PY{p}{:} \PY{n}{expected\PYZus{}return\PYZus{}times}\PY{p}{,}
+    \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{stationary}\PY{l+s+s1}{\PYZsq{}}\PY{p}{:} \PY{n}{stationary}
+\PY{p}{\PYZcb{}}
+
+\PY{c+c1}{\PYZsh{} If in notebook, display small summary}
+\PY{k}{try}\PY{p}{:}
+    \PY{k+kn}{from} \PY{n+nn}{IPython}\PY{n+nn}{.}\PY{n+nn}{display} \PY{k+kn}{import} \PY{n}{display}
+    \PY{n+nb}{print}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+se}{\PYZbs{}n}\PY{l+s+s2}{Markov analysis summary dictionary keys:}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{n+nb}{list}\PY{p}{(}\PY{n}{markov\PYZus{}analysis}\PY{o}{.}\PY{n}{keys}\PY{p}{(}\PY{p}{)}\PY{p}{)}\PY{p}{)}
+\PY{k}{except} \PY{n+ne}{Exception}\PY{p}{:}
+    \PY{k}{pass}
+
+\PY{c+c1}{\PYZsh{} \PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}}
+\PY{c+c1}{\PYZsh{} End of extra Markov analysis}
+\PY{c+c1}{\PYZsh{} \PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}\PYZhy{}}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+
+--- Expected return times (1 / stationary) ---
+Topic 0 (Sports / Education / Youth         ) : π=0.002297 -> return ≈ 435.4
+steps
+Topic 1 (Unity / Patriotism / Social Service) : π=0.002296 -> return ≈ 435.5
+steps
+Topic 2 (Leadership / Health / Communication) : π=0.002296 -> return ≈ 435.5
+steps
+Topic 3 (Education / Farmers / Citizens Issues) : π=0.988518 -> return ≈ 1.0
+steps
+Topic 4 (Healthcare / Organ Donation / Awareness) : π=0.002296 -> return ≈ 435.5
+steps
+Topic 5 (Women Empowerment / Cleanliness / Culture) : π=0.002297 -> return ≈
+435.4 steps
+
+--- Mean First Passage Time (MFPT) matrix (rows = start topic i, cols = target
+topic j) ---
+      0   1   2   3   4   5
+ 0 |    0.0  343.4  338.4    2.3  435.5  341.6   | Sports / Education / Youth
+ 1 |  527.5    0.0  430.5    1.3  527.6  433.7   | Unity / Patriotism / Social
+Service
+ 2 |  532.5  440.6    0.0    1.2  532.7  438.7   | Leadership / Health /
+Communication
+ 3 |  549.7  457.7  452.7    0.0  549.8  455.9   | Education / Farmers /
+Citizens Issues
+ 4 |  435.4  343.4  338.4    2.3    0.0  341.6   | Healthcare / Organ Donation /
+Awareness
+ 5 |  529.2  437.2  432.2    1.2  529.3    0.0   | Women Empowerment /
+Cleanliness / Culture
+
+Interpretation: entry M[i,j] = expected speeches to reach topic j when starting
+from topic i.
+
+Example interpretations (selected):
+ - If current topic is 0 (Sports / Education / Youth), expected steps to reach 3
+(Education / Farmers / Citizens Issues) ≈ 2.3
+ - If current topic is 1 (Unity / Patriotism / Social Service), expected steps
+to reach 3 (Education / Farmers / Citizens Issues) ≈ 1.3
+ - If current topic is 2 (Leadership / Health / Communication), expected steps
+to reach 3 (Education / Farmers / Citizens Issues) ≈ 1.2
+ - If current topic is 3 (Education / Farmers / Citizens Issues), expected steps
+to reach 2 (Leadership / Health / Communication) ≈ 452.7
+ - If current topic is 4 (Healthcare / Organ Donation / Awareness), expected
+steps to reach 3 (Education / Farmers / Citizens Issues) ≈ 2.3
+ - If current topic is 5 (Women Empowerment / Cleanliness / Culture), expected
+steps to reach 3 (Education / Farmers / Citizens Issues) ≈ 1.2
+
+--- Absorbing / Near-absorbing state check ---
+No exactly absorbing states found.
+No near-absorbing states (P[j,j] >= 0.999) were found.
+
+Note: Stationary distribution dominated by Topic 3 (Education / Farmers /
+Citizens Issues) with π = 0.9885. This implies practically-absorbing behavior.
+
+--- Entropy rate of the Markov chain ---
+Entropy rate = 0.092932 bits per step  (≈ 0.064415 nats per step)
+Interpretation: lower entropy -> more predictable topic transitions; higher
+entropy -> more diverse/unpredictable transitions.
+
+Markov analysis summary dictionary keys: ['mfpt\_matrix', 'absorbing\_states',
+'near\_absorbing\_states', 'entropy\_bits', 'expected\_return\_times', 'stationary']
+    \end{Verbatim}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{ }{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+
+\end{Verbatim}
+\end{tcolorbox}
+
+
+    % Add a bibliography block to the postdoc
+    
+    
+    
+\end{document}
